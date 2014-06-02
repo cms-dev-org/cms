@@ -24,7 +24,6 @@ public class UserConstroller {
 	
 	@Autowired
 	private IRoleService roleService;
-	
 	@Autowired
 	private IGroupService groupService;
 	
