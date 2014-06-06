@@ -14,7 +14,7 @@
 
 <script type="text/javascript">
 $(function() {
-	$('#addForm').validate({
+	var validater = $('#addForm').validate({
 		rules		: {
 			username		: 'required',
 			password		: {
@@ -33,6 +33,10 @@ $(function() {
 		errorElement: 'span',
 		errorClass	: ''
 	});
+	
+	if(validater.form()) {
+		alert('ddd');
+	}
 })
 </script>
 </head>
@@ -41,7 +45,7 @@ $(function() {
 
 <div class="container">
 
-	<form id="addForm" action="" method="post">
+	<form id="addForm" action="saveUser" method="post">
 	<div id="search_bar" class="mt10">
 		<div class="box">
 			<div class="box_border">
@@ -79,14 +83,12 @@ $(function() {
 							<td class="td_right">性别：</td>
 							<td>
 								<span class="fl">
-									<div class="select_border">
-										<div class="select_containers ">
-											<select name="sex" class="select">
-												<option value="0">未知</option>
-												<option value="1">男</option>
-												<option value="2">女</option>
-											</select>
-										</div>
+									<div class="select_containers ">
+										<select name="sex" class="select">
+											<option value="0">未知</option>
+											<option value="1">男</option>
+											<option value="2">女</option>
+										</select>
 									</div>
 								</span>
 							</td>
@@ -106,11 +108,17 @@ $(function() {
 						<tr>
 							<td class="td_right wh200">用户组：</td>
 							<td>
+								<c:forEach items="${group}" var="result">
+									<input type="checkbox" name="userGroup" value="${result.id}"> ${result.name}
+								</c:forEach>
 							</td>
 						</tr>
 						<tr>
 							<td class="td_right wh200">用户角色：</td>
 							<td>
+								<c:forEach items="${role}" var="result">
+									<input type="checkbox" name="userGroup" value="${result.roleType}"> ${result.name}
+								</c:forEach>
 							</td>
 						</tr>
 					</table>

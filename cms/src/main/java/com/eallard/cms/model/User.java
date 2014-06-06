@@ -50,7 +50,7 @@ public class User {
 	private String remark;
 	
 	private Integer createAuthor;
-
+	
 	@Id
 	@GeneratedValue
 	public int getId() {
@@ -146,5 +146,5 @@ public class User {
 	public void setCreateAuthor(Integer createAuthor) {
 		this.createAuthor = createAuthor;
 	}
-
+	
 }

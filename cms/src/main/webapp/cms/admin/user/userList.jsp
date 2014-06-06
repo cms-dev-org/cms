@@ -26,7 +26,7 @@
 	
 	//跳转到添加用户页面
 	function toAddUserPage() {
-		window.location.href = "add";
+		window.location.href = "saveUserInit";
 	}
 </script>
 

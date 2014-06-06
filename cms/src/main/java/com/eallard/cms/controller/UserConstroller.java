@@ -6,12 +6,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.eallard.cms.model.User;
 import com.eallard.cms.service.IGroupService;
 import com.eallard.cms.service.IRoleService;
 import com.eallard.cms.service.IUserService;
 
 /**
- * 111111111111111111111
  * @author renzw
  * @date 2014-4-30 上午9:23:30 
  */
@@ -33,12 +33,19 @@ public class UserConstroller {
 		return "admin/user/userList";
 	}
 	
-	@RequestMapping(value = "/add", method=RequestMethod.GET)
-	public String addUser(Model model) {
+	@RequestMapping(value = "/saveUserInit", method=RequestMethod.GET)
+	public String saveUserInit(Model model) {
 		
 		model.addAttribute("group", groupService.listGroup());
 		model.addAttribute("role", roleService.listRole());
 		
 		return "admin/user/addUser";
+	}
+	
+	@RequestMapping(value = "/saveUser", method=RequestMethod.POST)
+	public String saveUser(User user) {
+		System.out.println(user.getUsername());
+		//serService.add(user, user.getRoleIds(), user.getGroupIds());
+		return "admin/user/userList";
 	}
 }
