@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.eallard.cms.model.User;
+import com.eallard.cms.dto.UserDto;
 import com.eallard.cms.service.IGroupService;
 import com.eallard.cms.service.IRoleService;
 import com.eallard.cms.service.IUserService;
@@ -43,9 +43,17 @@ public class UserConstroller {
 	}
 	
 	@RequestMapping(value = "/saveUser", method=RequestMethod.POST)
-	public String saveUser(User user) {
-		System.out.println(user.getUsername());
-		//serService.add(user, user.getRoleIds(), user.getGroupIds());
+	public String saveUser(UserDto userDto) {
+		
+		userService.add(userDto.getUser(), userDto.getRoleIds(), userDto.getGroupIds());
 		return "admin/user/userList";
 	}
 }
+
+
+
+
+
+
+
+

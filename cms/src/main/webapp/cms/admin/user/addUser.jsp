@@ -109,7 +109,7 @@ $(function() {
 							<td class="td_right wh200">用户组：</td>
 							<td>
 								<c:forEach items="${group}" var="result">
-									<input type="checkbox" name="userGroup" value="${result.id}"> ${result.name}
+									<input type="checkbox" name="groupIds" value="${result.id}"> ${result.name}
 								</c:forEach>
 							</td>
 						</tr>
@@ -117,7 +117,7 @@ $(function() {
 							<td class="td_right wh200">用户角色：</td>
 							<td>
 								<c:forEach items="${role}" var="result">
-									<input type="checkbox" name="userGroup" value="${result.roleType}"> ${result.name}
+									<input type="checkbox" name="roleIds" value="${result.id}"> ${result.name}
 								</c:forEach>
 							</td>
 						</tr>

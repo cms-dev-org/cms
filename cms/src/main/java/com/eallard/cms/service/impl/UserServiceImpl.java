@@ -36,19 +36,23 @@ public class UserServiceImpl implements IUserService {
 	
 
 	@Override
-	public void add(User user, Integer[] roleIds, Integer[] groupIds) {
-		
+	public void add(User user, List<Integer> roleIds, List<Integer> groupIds) {
+		if(user == null) throw new CmsException("用户对象为空，请重新添加！");
 		User tu = userDao.loadByUsername(user.getUsername().trim());
 		if(tu != null) throw new CmsException("添加的用户已经存在，不能添加！");
 		
 		userDao.add(user);
 		
-		for(Integer rId : roleIds) {
-			addUserRole(user, rId);
+		if(roleIds != null) {
+			for(Integer rId : roleIds) {
+				addUserRole(user, rId);
+			}
 		}
 		
-		for(Integer gId : groupIds) {
-			addUserGroup(user, gId);
+		if(groupIds != null) {
+			for(Integer gId : groupIds) {
+				addUserGroup(user, gId);
+			}
 		}
 	}
 

@@ -95,7 +95,7 @@ public class BaseDaoImpl<T> implements IBaseDao<T>{
 	 */
 	private void initArgs(Query query, Object[] objs) {
 		if(objs != null) {
-			for(int i=1; i<=objs.length; i++) {
+			for(int i=0; i<objs.length; i++) {
 				query.setParameter(i, objs[i]);
 			}
 		}

@@ -42,7 +42,7 @@ public class User {
 	private String mobilePhone;
 	
 	/** 用户状态：1启用 0停用*/
-	private int status;
+	private Integer status;
 	
 	/** 用户创建时间*/
 	private Date createDate;
@@ -113,11 +113,11 @@ public class User {
 		this.mobilePhone = mobilePhone;
 	}
 
-	public int getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
@@ -139,7 +139,7 @@ public class User {
 	}
 
 	@Column(name="create_author")
-	public int getCreateAuthor() {
+	public Integer getCreateAuthor() {
 		return createAuthor;
 	}
 

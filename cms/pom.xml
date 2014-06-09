@@ -67,7 +67,6 @@
 			<groupId>org.hibernate</groupId>
 		  	<artifactId>hibernate-validator</artifactId>
 		</dependency>
-		
 		<!-- mysql driver -->
 		<dependency>
 			<groupId>mysql</groupId>

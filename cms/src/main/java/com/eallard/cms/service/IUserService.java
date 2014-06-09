@@ -20,7 +20,7 @@ public interface IUserService {
 	 * @param roleIds 角色
 	 * @param groupIds 组
 	 */
-	public void add(User user, Integer[] roleIds, Integer[] groupIds);
+	public void add(User user, List<Integer> roleIds, List<Integer> groupIds);
 	
 	/**
 	 * 删除用户，级联删除用户与角色，用户与组的关系删除
