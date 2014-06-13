@@ -2,8 +2,6 @@ package com.eallard.cms.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -24,7 +22,7 @@ public class Role {
 	private String name;
 	
 	/** 角色类型 枚举类型 */
-	private RoleType roleType;
+	private String roleType;
 	
 	@Id
 	@GeneratedValue
@@ -43,14 +41,14 @@ public class Role {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	@Enumerated(EnumType.STRING)
+
 	@Column(name="role_type")
-	public RoleType getRoleType() {
+	public String getRoleType() {
 		return roleType;
 	}
-	
-	public void setRoleType(RoleType roleType) {
+
+	public void setRoleType(String roleType) {
 		this.roleType = roleType;
 	}
+
 }

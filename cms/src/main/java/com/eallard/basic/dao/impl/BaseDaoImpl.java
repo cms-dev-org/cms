@@ -31,7 +31,7 @@ public class BaseDaoImpl<T> implements IBaseDao<T>{
 	public Class<T> getClz() {
 		if(clz == null) {
 			clz = ((Class<T>)(((ParameterizedType)
-					(this.getClass().getGenericSuperclass())).getActualTypeArguments().getClass()));
+					(this.getClass().getGenericSuperclass())).getActualTypeArguments()[0]));
 		}
 		return clz;
 	}

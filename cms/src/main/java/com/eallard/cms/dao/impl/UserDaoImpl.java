@@ -65,7 +65,7 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements IUserDao{
 	@Override
 	public UserRole loadUserRole(int userId, int roleId) {
 		String hql = "select ur from UserRole ur left join fetch ur.user " +
-				"left join fetch ur.group where ur.user.id=? and ur.role.id=?";
+				"left join fetch ur.role where ur.user.id=? and ur.role.id=?";
 		return (UserRole) this.getSession().createQuery(hql).
 				setParameter(0, userId).setParameter(1, roleId).
 				uniqueResult();

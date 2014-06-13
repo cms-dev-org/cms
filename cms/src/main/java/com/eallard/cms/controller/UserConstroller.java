@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.eallard.cms.dto.UserDto;
+import com.eallard.cms.exception.CmsException;
 import com.eallard.cms.service.IGroupService;
 import com.eallard.cms.service.IRoleService;
 import com.eallard.cms.service.IUserService;
@@ -44,9 +45,12 @@ public class UserConstroller {
 	
 	@RequestMapping(value = "/saveUser", method=RequestMethod.POST)
 	public String saveUser(UserDto userDto) {
-		
-		userService.add(userDto.getUser(), userDto.getRoleIds(), userDto.getGroupIds());
-		return "admin/user/userList";
+		try {
+			userService.add(userDto.getUser(), userDto.getRoleIds(), userDto.getGroupIds());
+		} catch(Exception e) {
+			throw new CmsException("添加用户发生异常！");
+		}
+		return "redirect:list";
 	}
 }
 
