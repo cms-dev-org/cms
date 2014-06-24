@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.eallard.basic.model.Pager;
+import com.eallard.cms.constant.CmsServiceConstants;
 import com.eallard.cms.dao.IGroupDao;
 import com.eallard.cms.dao.IRoleDao;
 import com.eallard.cms.dao.IUserDao;
@@ -41,6 +42,7 @@ public class UserServiceImpl implements IUserService {
 		User tu = userDao.loadByUsername(user.getUsername().trim());
 		if(tu != null) throw new CmsException("添加的用户已经存在，不能添加！");
 		
+		user.setStatus(CmsServiceConstants.USER_STATUS_USED);
 		userDao.add(user);
 		
 		if(roleIds != null) {

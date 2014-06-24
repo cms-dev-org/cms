@@ -19,14 +19,29 @@
 <script type="text/javascript">
 	$(function() {
 		$('#addUserBtn').click(function() {
-			toAddUserPage()
+			toAddUserPage();
 		});
 		$('.delete').confirmOperator();
+		
 	});
 	
 	//跳转到添加用户页面
 	function toAddUserPage() {
 		window.location.href = "saveUserInit";
+	}
+	//改变用户状态
+	function changeUserStatus(id, ths) {
+		$.ajax({
+			url		: 'editUserStatus',
+			data	: {id : id},
+			type	: 'GET',
+			success	: function(response) {
+				console.dir(response);
+			},
+			error 	: function() {
+				
+			}
+		});
 	}
 </script>
 
@@ -71,8 +86,8 @@
 				<td class="td_center">${user.mobilePhone}</td>
 				<td class="td_center"><a href="mailto:${user.email}">${user.email}</a></td>
 				<td class="td_center">
-				<c:if test="${user.status eq 1}">启用</c:if>
-				<c:if test="${user.status eq 0}">停用</c:if>
+				<c:if test="${user.status eq 1}"><a href="javascript:void(0)" onclick="changeUserStatus(${user.id}, this)">停用</a></c:if>
+				<c:if test="${user.status eq 0}"><a href="javascript:void(0)" onclick="changeUserStatus(${user.id}, this)">启用</a></c:if>
 				</td>
 				<td class="td_center">
 					<a href="udpate/${user.id}">修改</a>&nbsp;&nbsp;

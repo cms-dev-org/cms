@@ -1,4 +1,4 @@
-package com.eallard.basic.utils;
+package com.eallard.cms.utils;
 
 import java.text.DateFormat;
 import java.text.ParseException;

@@ -9,9 +9,11 @@
 
 <link rel="stylesheet" href="<%=contextPath%>/admin/css/common.css" />
 <link rel="stylesheet" href="<%=contextPath%>/admin/css/main.css" />
+<link rel="stylesheet" href="<%=contextPath%>/admin/css/core.css" />
 
 <script type="text/javascript" src="<%=contextPath%>/resources/js/jquery-1.8.3.js"></script>
 <script type="text/javascript" src="<%=contextPath%>/resources/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<%=contextPath%>/resources/js/additional-methods.js"></script>
 <script type="text/javascript" src="<%=contextPath%>/resources/js/cookie.js"></script>
 <script type="text/javascript" src="<%=contextPath%>/resources/js/jquery.SuperSlide.js"></script>
 

@@ -117,9 +117,9 @@
 		<div class="sideMenu" style="margin:0 auto">
 			<h3>用户管理</h3>
 			<ul>
-				<li class="on" src="/cms/user/list">会员管理</li>
-				<li>会员组管理</li>
-				<li>会员功能配置</li>
+				<li class="on" src="/cms/user/list">用户管理</li>
+				<li>用户组管理</li>
+				<li>用户功能配置</li>
 				<li>管理员管理</li>
 				<li>个人资料</li>
 				<li src="cms/admin/main.jsp">DEMO</li>

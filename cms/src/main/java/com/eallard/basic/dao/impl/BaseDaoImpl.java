@@ -19,7 +19,7 @@ import org.hibernate.transform.Transformers;
 import com.eallard.basic.dao.IBaseDao;
 import com.eallard.basic.model.Pager;
 import com.eallard.basic.model.SystemContext;
-import com.eallard.basic.utils.StringUtil;
+import com.eallard.cms.utils.StringUtil;
 
 @SuppressWarnings("unchecked")
 public class BaseDaoImpl<T> implements IBaseDao<T>{

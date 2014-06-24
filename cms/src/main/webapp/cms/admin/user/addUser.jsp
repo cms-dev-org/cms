@@ -14,30 +14,44 @@
 
 <script type="text/javascript">
 $(function() {
-	var validater = $('#addForm').validate({
+	
+	//新增用户表单验证
+	$('#addForm').validate({
 		rules		: {
-			username		: 'required',
+			username		: {
+				required	: true,
+				username	: true,
+				minlength	: 5
+			},
 			password		: {
 				required	: true,
 				minlength	: 3
-			}
+			},
+			passwordConfirm : {
+				equalTo		: '#password'
+			},
+			nickname		: 'required',
+			email			: 'email'
 		},
 		messages	: {
-			username		: '用户名不能为空！',
+			username		: {
+				required	: '账号不能为空！',
+				username	: '账号只能输入英文、下划线和数字！',
+				minlength	: jQuery.format('账号长度至少为{0}个字符！')
+			},
 			password		: {
 				required	: '密码不能为空！',
-				minlength	: '密码长度至少为3！'
+				minlength	: jQuery.format('密码长度至少为{0}个字符！')
 			},
-			passwordConfirm	: '确认密码必须与密码一致！'
+			passwordConfirm	: '确认密码必须与密码一致！',
+			nickname		: '姓名不能为空！',
+			email			: '邮箱格式不正确！'
 		},
 		errorElement: 'span',
-		errorClass	: ''
+		errorClass	: 'error-tip'
 	});
-	
-	if(validater.form()) {
-		alert('ddd');
-	}
 })
+
 </script>
 </head>
 
@@ -56,25 +70,25 @@ $(function() {
 					<table class="form_table" border="0" cellpadding="0"
 						cellspacing="0">
 						<tr>
-							<td class="td_right wh200">账号：</td>
+							<td class="td_right wh200"><span style="color:red;">*</span>账号：</td>
 							<td><input type="text" name="username" class="input-text lh25"
 								size="30">
 							</td>
 						</tr>
 						<tr>
-							<td class="td_right wh200">密码：</td>
-							<td><input type="text" id="password" name="password" class="input-text lh25"
+							<td class="td_right wh200"><span style="color:red;">*</span>密码：</td>
+							<td><input type="password" id="password" name="password" class="input-text lh25"
 								size="30">
 							</td>
 						</tr>
 						<tr>
-							<td class="td_right wh200">确认密码：</td>
-							<td><input type="text" name="passwordConfirm" class="input-text lh25"
+							<td class="td_right wh200"><span style="color:red;">*</span>确认密码：</td>
+							<td><input type="password" name="passwordConfirm" class="input-text lh25"
 								size="30">
 							</td>
 						</tr>
 						<tr>
-							<td class="td_right wh200">姓名：</td>
+							<td class="td_right wh200"><span style="color:red;">*</span>姓名：</td>
 							<td><input type="text" name="nickname" class="input-text lh25"
 								size="30">
 							</td>
@@ -126,7 +140,7 @@ $(function() {
 				<div class="box_bottom pb5 pt5 pr10"
 					style="border-top:1px solid #dadada;">
 					<div class="search_bar_btn" style="text-align:right;">
-						<input type="submit" value="确定" class="ext_btn ext_btn_submit">
+						<input type="submit" value="确定" class="ext_btn ext_btn_submit" >
 						<input type="button" value="返回"
 							onclick="location.href='javascript:history.go(-1)'"
 							class="ext_btn">

@@ -1,5 +1,10 @@
 package com.eallard.cms.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +16,7 @@ import com.eallard.cms.exception.CmsException;
 import com.eallard.cms.service.IGroupService;
 import com.eallard.cms.service.IRoleService;
 import com.eallard.cms.service.IUserService;
+import com.eallard.cms.utils.JsonUtil;
 
 /**
  * @author renzw
@@ -18,7 +24,7 @@ import com.eallard.cms.service.IUserService;
  */
 @Controller
 @RequestMapping("/user")
-public class UserConstroller {
+public class UserConstroller extends BaseController {
 
 	@Autowired
 	private IUserService userService;
@@ -51,6 +57,30 @@ public class UserConstroller {
 			throw new CmsException("添加用户发生异常！");
 		}
 		return "redirect:list";
+	}
+	
+	/**
+	 * 更换用户状态：1启用 0停用
+	 * @param response
+	 */
+	@RequestMapping(value = "/editUserStatus", method=RequestMethod.GET)
+	public void editUserStatus(HttpServletResponse response, String id) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		boolean success = false;
+		try {
+			userService.updateStatus(Integer.valueOf(id));
+			success = true;
+		} catch(Exception e) {
+			success = false;
+			throw new CmsException("修改用户状态发生异常！");
+		}
+		result.put("success", success);
+		try {
+			this.sendJson(response, JsonUtil.toJson(result));
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new CmsException("发送数据异常！");
+		}
 	}
 }
 
