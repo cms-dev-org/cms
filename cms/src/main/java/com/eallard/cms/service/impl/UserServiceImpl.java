@@ -105,12 +105,16 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public void updateStatus(int id) {
+	public Integer updateStatus(int id) {
 		User user = userDao.load(id);
 		if(user == null) throw new CmsException("修改的用户不存在！");
-		if(user.getStatus() == 0) user.setStatus(1);
-		else user.setStatus(0);
+		if(user.getStatus() == 0) {
+			user.setStatus(1);
+		} else {
+			user.setStatus(0);
+		}
 		userDao.update(user);
+		return user.getStatus();
 	}
 
 	@Override

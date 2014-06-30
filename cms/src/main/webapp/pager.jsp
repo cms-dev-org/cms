@@ -6,15 +6,15 @@
 			+ path + "/";
 %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-
-<title>分页</title>
-
-</head>
-
-<body>
-	
-</body>
-</html>
+<div class="page mt10">
+	<div class="pagination">
+		<ul>
+			<li class="first-child"><a href="#">首页</a></li>
+			<li class="disabled"><span>上一页</span></li>
+			<li class="active"><span>1</span></li>
+			<li><a href="#">2</a></li>
+			<li><a href="#">下一页</a></li>
+			<li class="last-child"><a href="#">末页</a></li>
+		</ul>
+	</div>
+</div>

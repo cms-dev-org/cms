@@ -36,10 +36,17 @@
 			data	: {id : id},
 			type	: 'GET',
 			success	: function(response) {
-				console.dir(response);
-			},
-			error 	: function() {
-				
+				if(response.success) {
+					if(response.data == 1) {
+						$(ths).empty().append('停用');
+						$(ths).prev().empty().append('已启用 | ');
+					} else {
+						$(ths).empty().append('启用');
+						$(ths).prev().empty().append('已停用 | ');
+					}
+				} else {
+					alert("修改失败，请联系管理员！");
+				}
 			}
 		});
 	}
@@ -86,8 +93,8 @@
 				<td class="td_center">${user.mobilePhone}</td>
 				<td class="td_center"><a href="mailto:${user.email}">${user.email}</a></td>
 				<td class="td_center">
-				<c:if test="${user.status eq 1}"><a href="javascript:void(0)" onclick="changeUserStatus(${user.id}, this)">停用</a></c:if>
-				<c:if test="${user.status eq 0}"><a href="javascript:void(0)" onclick="changeUserStatus(${user.id}, this)">启用</a></c:if>
+				<c:if test="${user.status eq 1}"><span>已启用 | </span><a href="javascript:void(0)" onclick="changeUserStatus(${user.id}, this)">停用</a></c:if>
+				<c:if test="${user.status eq 0}"><span>已停用 | </span><a href="javascript:void(0)" onclick="changeUserStatus(${user.id}, this)">启用</a></c:if>
 				</td>
 				<td class="td_center">
 					<a href="udpate/${user.id}">修改</a>&nbsp;&nbsp;
@@ -96,24 +103,7 @@
 			</tr>
 			</c:forEach>
 		</table>
-		<div class="page mt10">
-			<div class="pagination">
-				<ul>
-					<li class="first-child"><a href="#">首页</a>
-					</li>
-					<li class="disabled"><span>上一页</span>
-					</li>
-					<li class="active"><span>1</span>
-					</li>
-					<li><a href="#">2</a>
-					</li>
-					<li><a href="#">下一页</a>
-					</li>
-					<li class="last-child"><a href="#">末页</a>
-					</li>
-				</ul>
-			</div>
-		</div>
+		<jsp:include page="/pager.jsp"></jsp:include>
 	</div>
 </div>
 </div>

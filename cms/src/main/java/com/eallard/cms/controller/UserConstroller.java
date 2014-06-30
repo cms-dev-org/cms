@@ -67,14 +67,16 @@ public class UserConstroller extends BaseController {
 	public void editUserStatus(HttpServletResponse response, String id) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		boolean success = false;
+		Integer sign = null;
 		try {
-			userService.updateStatus(Integer.valueOf(id));
+			sign = userService.updateStatus(Integer.valueOf(id));
 			success = true;
 		} catch(Exception e) {
 			success = false;
 			throw new CmsException("修改用户状态发生异常！");
 		}
 		result.put("success", success);
+		result.put("data", sign);
 		try {
 			this.sendJson(response, JsonUtil.toJson(result));
 		} catch (Exception e) {

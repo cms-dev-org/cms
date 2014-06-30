@@ -41,7 +41,7 @@ public interface IUserService {
 	 * 更新用户状态（停用、启用）
 	 * @param id
 	 */
-	public void updateStatus(int id);
+	public Integer updateStatus(int id);
 	
 	/**
 	 * 查询用户列表
