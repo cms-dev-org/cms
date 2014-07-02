@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 客户信息 -->
+<sqlMap namespace="HighQuality">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+	<select id="query" parameterClass="map" resultClass="dto">
+		SELECT b.id as highQulity_id,b.brand_id, b.num,b.remark,b.update_author,d.SPECIFICATION_NAME,
+			a.customer_code,a.customer_name,a.address,a.phone_num,a.company,a.account,a.director,a.department,
+			a.sale_visitor,a.location_desc,a.manage_type,a.sale_valume,a.relation,a.customer_level,a.customer_type,
+			a.send_num,a.visit_cycle,a.order_area,a.order_type,a.customer_status,a.remark,a.update_time
+		FROM MDMS_HIGH_QUALITY b left join mdms_customer a on b.customer_code=a.customer_code
+		LEFT JOIN eauser c ON b.update_author=c.userid
+		left join MDMS_BRAND_INFO d on b.brand_id=d.id
+		WHERE 1=1 AND b.enabled=1
+		<dynamic>
+			<isNotEmpty prepend="and" property="queryParam">
+				(a.customer_code like CONCAT('%',#queryParam#,'%') or
+				a.customer_name like CONCAT('%',#queryParam#,'%') or
+				a.address like CONCAT('%',#queryParam#,'%') or
+				a.director like CONCAT('%',#queryParam#,'%') or
+				d.SPECIFICATION_NAME like CONCAT('%',#queryParam#,'%'))
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deptid"> 
+				(c.deptid LIKE CONCAT(#deptid#,'_%')
+				<isNotEmpty  prepend="or" property="userid">
+					(c.deptid=#deptid# and c.userid=#userid#)
+				</isNotEmpty>
+				)
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="queryCount" parameterClass="map" resultClass="java.lang.Integer">
+		SELECT count(b.id)
+		FROM MDMS_HIGH_QUALITY b left join mdms_customer a on b.customer_code=a.customer_code
+		LEFT JOIN eauser c ON b.update_author=c.userid
+		left join MDMS_BRAND_INFO d on b.brand_id=d.id
+		WHERE 1=1 AND b.enabled=1
+		<dynamic>
+			<isNotEmpty prepend="and" property="queryParam">
+				(a.customer_code like CONCAT('%',#queryParam#,'%') or
+				a.customer_name like CONCAT('%',#queryParam#,'%') or
+				a.address like CONCAT('%',#queryParam#,'%') or
+				a.director like CONCAT('%',#queryParam#,'%') or
+				d.SPECIFICATION_NAME like CONCAT('%',#queryParam#,'%'))
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deptid"> 
+				(c.deptid LIKE CONCAT(#deptid#,'_%')
+				<isNotEmpty  prepend="or" property="userid">
+					(c.deptid=#deptid# and c.userid=#userid#)
+				</isNotEmpty>
+				)
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	
+	<select id="query4Export" parameterClass="map" resultClass="dto">
+		SELECT b.zh_hardbox,b.zh_softbox,b.remark,a.customer_code,a.customer_name,a.director,
+			a.sale_visitor,a.manage_type,a.visit_cycle
+		FROM mdms_consume_approal b left join mdms_customer a on b.customer_code=a.customer_code
+		LEFT JOIN eauser c ON b.update_author=c.userid
+		WHERE 1=1 AND b.enabled=1
+		<dynamic>
+			<isNotEmpty prepend="and" property="queryParam">
+				(a.customer_code like CONCAT('%',#queryParam#,'%') or
+				a.customer_name like CONCAT('%',#queryParam#,'%') or
+				a.address like CONCAT('%',#queryParam#,'%') or
+				a.director like CONCAT('%',#queryParam#,'%'))
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="report_date_start">
+				b.report_date>=#report_date_start#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="report_date_end">
+				b.report_date<![CDATA[ <= ]]>#report_date_end#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deptid"> 
+				(c.deptid LIKE CONCAT(#deptid#,'_%')
+				<isNotEmpty  prepend="or" property="userid">
+					(c.deptid=#deptid# and c.userid=#userid#)
+				</isNotEmpty>
+				)
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 插入汇总明细记录 -->
+	<insert id="insert" parameterClass="dto">
+		INSERT INTO MDMS_HIGH_QUALITY(
+			CUSTOMER_CODE,BRAND_ID,NUM,REMARK,enabled,update_author
+		) VALUES(
+			#customer_code#,$brand_id$,$num$,#remark#,#enabled#,#update_author#
+		)
+	</insert>
+	
+	<!-- 逻辑删除项目信息 -->
+	<update id="delete" parameterClass="dto">
+		UPDATE MDMS_HIGH_QUALITY SET enabled=0 WHERE id IN ($ids$)
+	</update>
+	
+	<update id="update" parameterClass="dto">
+		UPDATE MDMS_HIGH_QUALITY
+		<dynamic prepend="SET"> 
+			<isNotEmpty prepend="," property="customer_code">
+				customer_code = #customer_code#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="brand_id">
+				brand_id = $brand_id$
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="num">
+				num = $num$
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="remark">
+	         	remark = #remark#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="update_author">
+	         	update_author = #update_author#
+			</isNotEmpty>
+		</dynamic> 
+	        WHERE id = $highqulity_id$
+	</update>
+	
+</sqlMap>

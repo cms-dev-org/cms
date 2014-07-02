@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+<struts-config>
+	<!-- 配置ActionFormBean -->
+	<form-beans>
+		<!-- 公共Form -->
+		<form-bean name="commonActionForm" type="org.g4studio.core.web.CommonActionForm" />
+	</form-beans>
+
+	<!-- Action映射 -->
+	<action-mappings type="org.g4studio.core.mvc.xstruts.action.ActionMapping">
+		<!-- 消费审批 -->
+		<action name="commonActionForm" path="/consumeApproval" scope="request"
+			parameter="reqCode" type="com.tobacco.mdms.consume.web.ConsumeApprovalAction">
+			<forward name="mainview" path="/modules/consume/consumeapproval.jsp" />
+		</action>
+		
+		<!-- 消费客户 -->
+		<action name="commonActionForm" path="/consumeCustomer" scope="request"
+			parameter="reqCode" type="com.tobacco.mdms.consume.web.ConsumeCustomerAction">
+			<forward name="mainview" path="/modules/consume/consumecustomer.jsp" />
+		</action>
+		
+		<!-- 消费额度分配 -->
+		<action name="commonActionForm" path="/consumeDistribution" scope="request"
+			parameter="reqCode" type="com.tobacco.mdms.consume.web.ConsumeDistributionAction">
+			<forward name="mainview" path="/modules/consume/consumedistribution.jsp"></forward>	
+		</action>
+		
+		<!-- 分配与审批数据比较 -->
+		<action name="commonActionForm" path="/consumeDataCompare" scope="request"
+			parameter="reqCode" type="com.tobacco.mdms.consume.web.ConsumeDataCompareAction">
+			<forward name="mainview" path="/modules/consume/consumedatacompare.jsp"></forward>	
+		</action>
+		
+		<!-- 卷烟品牌 -->
+		<action name="commonActionForm" path="/brandInfo" scope="request"
+			parameter="reqCode" type="com.tobacco.mdms.consume.web.BrandInfoAction">
+			<forward name="mainview" path="/modules/consume/brandinfo.jsp"></forward>	
+		</action>
+		
+		<!-- 临时报表系统->软哈计数系统 -->
+		<action name="commonActionForm" path="/hdmSoftStatistics" scope="request"
+			parameter="reqCode" type="com.tobacco.mdms.consume.web.HdmSoftStatisticsAction">
+			<forward name="mainview" path="/modules/consume/hdmsoftstatistics.jsp"></forward>	
+		</action>
+		
+		<!-- 临时报表系统->七匹狼豪情计数系统 -->
+		<action name="commonActionForm" path="/qplhqHardStatistics" scope="request"
+			parameter="reqCode" type="com.tobacco.mdms.consume.web.QplhqHardStatisticsAction">
+			<forward name="mainview" path="/modules/consume/qplhqhardstatistics.jsp"></forward>	
+		</action>
+		
+		<!-- 优质货源报表 -->
+		<action name="commonActionForm" path="/highQualityBrand" scope="request"
+			parameter="reqCode" type="com.tobacco.mdms.consume.web.HighQualityBrandAction">
+			<forward name="mainview" path="/modules/consume/highqualitybrand.jsp"></forward>	
+		</action>
+		<!-- 优质货源报表2 -->
+		<action name="commonActionForm" path="/highQuality" scope="request"
+			parameter="reqCode" type="com.tobacco.mdms.consume.web.HighQualityAction">
+			<forward name="mainview" path="/modules/consume/highquality.jsp"></forward>	
+		</action>
+	</action-mappings>
+
+</struts-config>

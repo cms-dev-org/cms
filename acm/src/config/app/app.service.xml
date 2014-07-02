@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 业务系统 -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+	
+	<!-- 业务服务组件配置示例  
+	<bean id="***Service" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="com.*.........*ServiceImpl">
+			    <property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+	-->
+	<!-- Service基类 -->
+	<bean id="bizService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="org.g4studio.core.model.service.impl.BizServiceImpl">
+				<property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="consumeApprovalService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="com.tobacco.mdms.consume.service.impl.ConsumeApprovalServiceImpl">
+			    <property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="consumeCustomerService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="com.tobacco.mdms.consume.service.impl.ConsumeCustomerServiceImpl">
+			    <property name="g4Dao" ref="g4Dao" />
+			</bean>
+		</property>
+	</bean>
+	<!-- 消费分配 -->
+	<bean id="consumeDistributionService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="com.tobacco.mdms.consume.service.impl.ConsumeDistributionServiceImpl">
+				<property name="g4Dao" ref="g4Dao"></property>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- 品牌信息 -->
+	<bean id="brandInfoService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="com.tobacco.mdms.consume.service.impl.BrandInfoServiceImpl">
+				<property name="g4Dao" ref="g4Dao"></property>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- 软哈计数 -->
+	<bean id="hdmSoftStatisticsService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="com.tobacco.mdms.consume.service.impl.HdmSoftStatisticsServiceImpl">
+				<property name="g4Dao" ref="g4Dao"></property>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- 七匹狼豪情计数 -->
+	<bean id="qplhqHardStatisticsService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="com.tobacco.mdms.consume.service.impl.QplhqHardStatisticsServiceImpl">
+				<property name="g4Dao" ref="g4Dao"></property>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- 优质货源报表 -->
+	<bean id="highQualityBrandService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="com.tobacco.mdms.consume.service.impl.HighQualityBrandServiceImpl">
+				<property name="g4Dao" ref="g4Dao"></property>
+			</bean>
+		</property>
+	</bean>
+	<!-- 优质货源报表2 -->
+	<bean id="highQualityService" parent="baseTransactionProxyG4">
+		<property name="target">
+			<bean class="com.tobacco.mdms.consume.service.impl.HighQualityServiceImpl">
+				<property name="g4Dao" ref="g4Dao"></property>
+			</bean>
+		</property>
+	</bean>
+</beans>

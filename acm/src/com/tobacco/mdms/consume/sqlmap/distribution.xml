@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Distribution">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+	
+	<!-- 查询当前用户的一级子部门下的用户 -->
+	<select id="querySubUser" parameterClass="map" resultClass="dto">
+		SELECT userid,username FROM eauser WHERE 1 = 1 AND enabled=1
+		<dynamic>
+			<isNotEmpty prepend="and" property="deptid">
+				deptid LIKE CONCAT(#deptid#,'___')
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="query" parameterClass="map" resultClass="dto">
+		SELECT a.id,a.distribute_date,b.username distribute_author_name,a.distribute_author,a.zh_hardbox,zh_softbox,a.unit,
+			a.remark,c.username username
+		FROM mdms_consume_distribution a LEFT JOIN eauser b ON a.distribute_author=b.userid
+		LEFT JOIN eauser c ON a.update_author=c.userid
+		WHERE 1=1  
+		<dynamic>
+			<isNotEmpty prepend="and" property="queryParam">
+				(b.username like CONCAT('%',#queryParam#,'%') or
+				a.unit like CONCAT('%',#queryParam#,'%') or
+				a.remark like CONCAT('%',#queryParam#,'%') or
+				c.username like CONCAT('%',#queryParam#,'%'))
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="distribute_date_start">
+				a.distribute_date>=#distribute_date_start#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="distribute_date_end">
+				a.distribute_date<![CDATA[ <= ]]>#distribute_date_end#
+			</isNotEmpty>
+			<isEmpty prepend="and" property="all">
+				distribute_author=#userid#
+			</isEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="queryCount" parameterClass="map" resultClass="java.lang.Integer">
+		SELECT COUNT(a.id)
+		FROM mdms_consume_distribution a LEFT JOIN eauser b ON a.distribute_author=b.userid
+		LEFT JOIN eauser c ON a.update_author=c.userid
+		WHERE 1=1 
+		<dynamic>
+			<isNotEmpty prepend="and" property="queryParam">
+				(b.username like CONCAT('%',#queryParam#,'%') or
+				a.unit like CONCAT('%',#queryParam#,'%') or
+				a.remark like CONCAT('%',#queryParam#,'%') or
+				c.username like CONCAT('%',#queryParam#,'%'))
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="distribute_date_start">
+				a.distribute_date>=#distribute_date_start#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="distribute_date_end">
+				a.distribute_date<![CDATA[ <= ]]>#distribute_date_end#
+			</isNotEmpty>
+			<isEmpty prepend="and" property="all">
+				distribute_author=#userid#
+			</isEmpty>
+		</dynamic>
+	</select>
+	
+	<insert id="insert" parameterClass="map">
+		INSERT INTO mdms_consume_distribution(
+			distribute_date,distribute_author,zh_hardbox,
+			zh_softbox,unit,remark,update_author
+		) VALUES(
+			#distribute_date#,#distribute_author#,#zh_hardbox#,
+			#zh_softbox#,#unit#,#remark#,#update_author#
+		);
+	</insert>
+	
+	<update id="update" parameterClass="map">
+		UPDATE mdms_consume_distribution
+		<dynamic prepend="SET"> 
+			<isNotEmpty prepend="," property="distribute_date">
+				distribute_date = #distribute_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="distribute_author">
+				distribute_author = #distribute_author#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="zh_hardbox">
+				zh_hardbox = #zh_hardbox#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="zh_softbox">
+				zh_softbox = #zh_softbox#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="unit">
+				unit = #unit#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="remark">
+				remark = #remark#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="update_author">
+				update_author = #update_author#
+			</isNotEmpty>
+		</dynamic> 
+	        WHERE id = #distribute_id# 
+	</update>
+	
+	<delete id="delete" parameterClass="map">
+		DELETE FROM mdms_consume_distribution WHERE id in ($ids$);
+	</delete>
+	
+	<select id="queryDeptIdByUser" parameterClass="map" resultClass="java.lang.String">
+		SELECT deptid FROM eauser WHERE userid = #userid#
+	</select>
+	
+	<!-- 查询比例 -->
+	<select id="querySubUserDistributeAmount" parameterClass="map" resultClass="dto">
+		SELECT b.id,a.userid,username, 
+		CASE WHEN b.zh_hardbox IS NULL THEN 0 ELSE b.zh_hardbox END zh_hardbox,
+		CASE WHEN b.zh_softbox IS NULL THEN 0 ELSE b.zh_softbox END zh_softbox
+		FROM eauser a LEFT JOIN mdms_consume_distribution_rate b on a.userid=b.userid
+		AND b.type=#distributeType#
+		WHERE 1 = 1 AND enabled=1
+		<dynamic>
+			<isNotEmpty prepend="and" property="deptid">
+				deptid LIKE CONCAT(#deptid#,'___')
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="isDistributeDataExist" parameterClass="map" resultClass="java.lang.String">
+		SELECT id FROM MDMS_CONSUME_DISTRIBUTION_RATE WHERE userid=#userid# AND type=#type#
+	</select>
+	<insert id="insertDistributeRate" parameterClass="map">
+		INSERT INTO MDMS_CONSUME_DISTRIBUTION_RATE(userid,type,zh_hardbox,zh_softbox,update_author) 
+		VALUES(#userid#,#type#,$zh_hardbox$,$zh_softbox$,#update_author#)
+	</insert>
+	<update id="updateDistributeRate" parameterClass="map">
+		UPDATE MDMS_CONSUME_DISTRIBUTION_RATE 
+		<dynamic prepend="SET"> 
+			<isNotEmpty prepend="," property="userid">
+				userid = #userid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="type">
+				type = #type#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="zh_hardbox">
+				zh_hardbox = $zh_hardbox$
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="zh_softbox">
+				zh_softbox = $zh_softbox$
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="update_author">
+				update_author = #update_author#
+			</isNotEmpty>
+		</dynamic> 
+	        WHERE id = #rateid# 
+	</update>
+	
+	<select id="isDistributeExist" parameterClass="map" resultClass="java.lang.String">
+		SELECT id FROM MDMS_CONSUME_DISTRIBUTION WHERE DISTRIBUTE_AUTHOR=#userid# AND DISTRIBUTE_DATE=#distribute_date#
+	</select>
+	<insert id="insertDistribute" parameterClass="map">
+		INSERT INTO MDMS_CONSUME_DISTRIBUTION(distribute_date,distribute_author,zh_hardbox,zh_softbox,unit,update_author) 
+		VALUES(#distribute_date#,#userid#,$zh_hardbox_distribute$,$zh_softbox_distribute$,#unit#,#pAuthor#)
+	</insert>
+	<update id="updateDistribute" parameterClass="map">
+		UPDATE MDMS_CONSUME_DISTRIBUTION 
+		<dynamic prepend="SET"> 
+			<isNotEmpty prepend="," property="distribute_date">
+				distribute_date = #distribute_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="userid">
+				distribute_author = #userid#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="zh_hardbox_distribute">
+				zh_hardbox = $zh_hardbox_distribute$
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="zh_softbox_distribute">
+				zh_softbox = $zh_softbox_distribute$
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="unit">
+				unit = #unit#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="pAuthor">
+				update_author = #pAuthor#
+			</isNotEmpty>
+		</dynamic> 
+	        WHERE id = #distributeid# 
+	</update>
+	
+	<select id="queryDistribute" parameterClass="map" resultClass="dto">
+		SELECT b.id,a.userid,username, b.distribute_date,b.unit,
+		CASE WHEN b.zh_hardbox IS NULL THEN 0 ELSE b.zh_hardbox END zh_hardbox,
+		CASE WHEN b.zh_softbox IS NULL THEN 0 ELSE b.zh_softbox END zh_softbox
+		FROM eauser a LEFT JOIN mdms_consume_distribution b on a.userid=b.distribute_author
+		WHERE 1 = 1 AND enabled=1
+		<dynamic>
+			<isNotEmpty prepend="and" property="deptid">
+				deptid LIKE CONCAT(#deptid#,'___')
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="distribute_date">
+				b.distribute_date=#distribute_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="pAuthor">
+				b.update_author=#pAuthor#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="queryHardBoxCount" parameterClass="map" resultClass="java.lang.Integer">
+		SELECT SUM(b.zh_hardbox)
+		FROM eauser a LEFT JOIN mdms_consume_distribution b on a.userid=b.distribute_author
+		WHERE 1 = 1 AND enabled=1
+		<dynamic>
+			<isNotEmpty prepend="and" property="deptid">
+				deptid LIKE CONCAT(#deptid#,'___')
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="distribute_date">
+				b.distribute_date=#distribute_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="pAuthor">
+				b.update_author=#pAuthor#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	<select id="querySoftBoxCount" parameterClass="map" resultClass="java.lang.Integer">
+		SELECT SUM(b.zh_softbox)
+		FROM eauser a LEFT JOIN mdms_consume_distribution b on a.userid=b.distribute_author
+		WHERE 1 = 1 AND enabled=1
+		<dynamic>
+			<isNotEmpty prepend="and" property="deptid">
+				deptid LIKE CONCAT(#deptid#,'___')
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="distribute_date">
+				b.distribute_date=#distribute_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="pAuthor">
+				b.update_author=#pAuthor#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+</sqlMap>

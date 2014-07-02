@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 客户信息 -->
+<sqlMap namespace="Customer">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+	<select id="query" parameterClass="map" resultClass="dto">
+		SELECT a.id,a.customer_code,a.customer_name,a.address,a.phone_num,a.company,a.account,a.director,a.department,
+			a.sale_visitor,a.location_desc,a.manage_type,a.sale_valume,a.relation,a.customer_level,a.customer_type,
+			a.send_num,a.visit_cycle,a.order_area,a.order_type,a.customer_status,a.remark,a.update_time
+		FROM mdms_customer a LEFT JOIN eauser c ON a.update_author=c.userid
+		WHERE 1=1 AND a.enabled=1
+		<dynamic>
+			<isNotEmpty prepend="and" property="queryParam">
+				(a.customer_code like CONCAT('%',#queryParam#,'%') or
+				a.customer_name like CONCAT('%',#queryParam#,'%') or
+				a.address like CONCAT('%',#queryParam#,'%') or
+				a.director like CONCAT('%',#queryParam#,'%'))
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deptid"> 
+				(c.deptid LIKE CONCAT(#deptid#,'_%')
+				<isNotEmpty  prepend="or" property="userid">
+					(c.deptid=#deptid# and c.userid=#userid#)
+				</isNotEmpty>
+				)
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="queryCount" parameterClass="map" resultClass="java.lang.Integer">
+		SELECT COUNT(a.id) AS count
+		FROM mdms_customer a LEFT JOIN eauser c ON a.update_author=c.userid
+		WHERE 1=1 AND a.enabled=1
+		<dynamic>
+			<isNotEmpty prepend="and" property="queryParam">
+				(a.customer_code like CONCAT('%',#queryParam#,'%') or
+				a.customer_name like CONCAT('%',#queryParam#,'%') or
+				a.address like CONCAT('%',#queryParam#,'%') or
+				a.director like CONCAT('%',#queryParam#,'%'))
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deptid"> 
+				(c.deptid LIKE CONCAT(#deptid#,'_%')
+				<isNotEmpty  prepend="or" property="userid">
+					(c.deptid=#deptid# and c.userid=#userid#)
+				</isNotEmpty>
+				)
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 插入汇总明细记录 -->
+	<insert id="insert" parameterClass="dto">
+		INSERT INTO mdms_customer(
+			customer_code,customer_name,address,phone_num,company,account,director,department,
+			sale_visitor,location_desc,manage_type,sale_valume,relation,customer_level,customer_type,
+			send_num,visit_cycle,order_area,order_type,customer_status,remark,enabled,update_author
+		) VALUES(
+			#customer_code#,#customer_name#,#address#,#phone_num#,#company#,#account#,#director#,#department#,
+			#sale_visitor#,#location_desc#,#manage_type#,#sale_valume#,#relation#,#customer_level#,#customer_type#,
+			#send_num#,#visit_cycle#,#order_area#,#order_type#,#customer_status#,#remark#,#enabled#,#update_author#
+		)
+	</insert>
+	
+	<!-- 逻辑删除项目信息 -->
+	<update id="delete" parameterClass="dto">
+		UPDATE mdms_customer SET enabled=0 WHERE id IN ($ids$)
+	</update>
+	
+	<update id="update" parameterClass="dto">
+		UPDATE mdms_customer
+		<dynamic prepend="SET"> 
+			<isNotEmpty prepend="," property="customer_code">
+				customer_code = #customer_code#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="customer_name">
+				customer_name = #customer_name#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="address">
+	        	address = #address#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="phone_num">
+	         	phone_num = #phone_num#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="company">
+	         	company = #company#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="account">
+	         	account = #account#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="director">
+	         	director = #director#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="department">
+	         	department = #department#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="sale_visitor">
+	         	sale_visitor = #sale_visitor#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="location_desc">
+	         	location_desc = #location_desc#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="manage_type">
+	         	manage_type = #manage_type#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="sale_valume">
+	         	sale_valume = #sale_valume#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="relation">
+	         	relation = #relation#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="customer_level">
+	         	customer_level = #customer_level#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="customer_type">
+	         	customer_type = #customer_type#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="send_num">
+	         	send_num = #send_num#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="visit_cycle">
+	         	visit_cycle = #visit_cycle#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="order_area">
+	         	order_area = #order_area#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="order_type">
+	         	order_type = #order_type#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="customer_status">
+	         	customer_status = #customer_status#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="remark">
+	         	remark = #remark#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="update_author">
+	         	update_author = #update_author#
+			</isNotEmpty>
+		</dynamic> 
+	        WHERE id = #customer_id# 
+	</update>
+	
+	<!-- 检查客户编号是否有重复 -->
+	<select id="checkCustomerCode" parameterClass="map" resultClass="java.lang.String">
+		SELECT customer_code FROM mdms_customer
+	</select>
+</sqlMap>

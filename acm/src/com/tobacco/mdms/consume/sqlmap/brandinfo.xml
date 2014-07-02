@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 客户信息 -->
+<sqlMap namespace="BrandInfo">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+	
+	<select id="query" parameterClass="map" resultClass="dto">
+		SELECT id,bar_code,company,specification_name,type,package_type,price_level,
+			wholesale_price,retail_price,remark,enabled,update_author,update_time
+		FROM mdms_brand_info 
+		WHERE 1=1 AND enabled=1
+		<dynamic>
+			<isNotEmpty prepend="AND" property="queryParam">
+				(
+					bar_code like  CONCAT('%',#queryParam#,'%') or
+					company like  CONCAT('%',#queryParam#,'%') or
+					specification_name like  CONCAT('%',#queryParam#,'%') or
+					type like  CONCAT('%',#queryParam#,'%') or
+					package_type like  CONCAT('%',#queryParam#,'%') or
+					price_level like  CONCAT('%',#queryParam#,'%')
+				)
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="queryCount" parameterClass="map" resultClass="java.lang.Integer">
+		SELECT COUNT(id)
+		FROM mdms_brand_info 
+		WHERE 1=1 AND enabled=1
+		<dynamic>
+			<isNotEmpty prepend="AND" property="queryParam">
+				(
+					bar_code like  CONCAT('%',#queryParam#,'%') or
+					company like  CONCAT('%',#queryParam#,'%') or
+					specification_name like  CONCAT('%',#queryParam#,'%') or
+					type like  CONCAT('%',#queryParam#,'%') or
+					package_type like  CONCAT('%',#queryParam#,'%') or
+					price_level like  CONCAT('%',#queryParam#,'%')
+				)
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO mdms_brand_info(
+			bar_code,company,specification_name,type,package_type,price_level,
+			wholesale_price,retail_price,remark,enabled,update_author
+		) VALUES (
+			#bar_code#,#company#,#specification_name#,#type#,#package_type#,#price_level#,
+			#wholesale_price#,#retail_price#,#remark#,#enabled#,#update_author#
+		)
+	</insert>
+	
+	<update id="update" parameterClass="dto">
+		UPDATE mdms_brand_info 
+		<dynamic prepend="SET"> 
+			<isNotEmpty prepend="," property="bar_code">
+				bar_code = #bar_code#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="company">
+				company = #company#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="specification_name">
+	        	specification_name = #specification_name#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="type">
+	         	type = #type#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="package_type">
+	         	package_type = #package_type#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="price_level">
+	         	price_level = #price_level#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="wholesale_price">
+	         	wholesale_price = $wholesale_price$
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="retail_price">
+	         	retail_price = $retail_price$
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="remark">
+	         	remark = #remark#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="update_author">
+	         	update_author = #update_author#
+			</isNotEmpty>
+		</dynamic> 
+	        WHERE id = #id# 
+	</update>
+	
+	<!-- 逻辑删除项目信息 -->
+	<update id="delete" parameterClass="dto">
+		UPDATE mdms_brand_info SET enabled=0 WHERE id IN ($ids$)
+	</update>
+	
+</sqlMap>

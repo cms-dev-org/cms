@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 客户信息 -->
+<sqlMap namespace="HighQualityBrand">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+	
+	<!-- 查询已经被选择过的品牌 -->
+	<select id="querySelectedPowerBrand" parameterClass="Map" resultClass="dto">
+		SELECT b.id,b.bar_code,b.specification_name 
+		FROM MDMS_HIGH_QUALITY_BRAND a left join mdms_brand_info b on a.brand_id=b.id
+	 	WHERE 1=1   
+		<dynamic>
+			<isNotEmpty prepend="AND" property="type">
+				a.TYPE=#type#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="update_author">
+				a.UPDATE_AUTHOR=#update_author#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 查询品牌信息 剔除已经被选过的 -->
+	<select id="queryBrandRemoveSelected" parameterClass="Map" resultClass="dto">
+		SELECT id,bar_code,company,specification_name,type,package_type,price_level,
+			wholesale_price,retail_price,remark,enabled,update_author,update_time
+		FROM mdms_brand_info 
+		WHERE 1=1 AND enabled=1
+		AND id NOT IN(
+			SELECT brand_id FROM MDMS_HIGH_QUALITY_BRAND
+			WHERE 1=1
+			<dynamic>
+				<isNotEmpty prepend="AND" property="type">
+					TYPE=#type#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="update_author">
+					UPDATE_AUTHOR=#update_author#
+				</isNotEmpty>
+			</dynamic>
+		) 
+		<dynamic>
+			<isNotEmpty prepend="AND" property="queryParam">
+				(
+					bar_code like  CONCAT('%',#queryParam#,'%') or
+					company like  CONCAT('%',#queryParam#,'%') or
+					specification_name like  CONCAT('%',#queryParam#,'%') or
+					type like  CONCAT('%',#queryParam#,'%') or
+					package_type like  CONCAT('%',#queryParam#,'%') or
+					price_level like  CONCAT('%',#queryParam#,'%')
+				)
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 添加品牌信息 -->
+	<insert id="insertSelectedBrand" parameterClass="dto">
+		INSERT INTO MDMS_HIGH_QUALITY_BRAND(
+			TYPE,BRAND_ID,UPDATE_AUTHOR
+		) VALUES(
+			#type#,#id#,$update_author$
+		)
+	</insert>
+	
+	<!-- 删除品牌信息 -->
+	<delete id="deleteSelectedBrand" parameterClass="dto">
+		DELETE FROM MDMS_HIGH_QUALITY_BRAND
+		WHERE 1<![CDATA[ <> ]]>1
+		<dynamic>
+			<isNotEmpty prepend="or" property="type">
+				(TYPE=#type# and
+				UPDATE_AUTHOR=#update_author#)
+			</isNotEmpty>
+		</dynamic>
+	</delete>
+	
+	<!-- 查询动力或政策品牌信息 -->
+	<select id="queryBrand" resultClass="dto" parameterClass="Map">
+		SELECT A.ID,A.TYPE,A.BRAND_ID,A.UPDATE_AUTHOR,A.UPDATE_TIME,B.SPECIFICATION_NAME   
+		FROM MDMS_HIGH_QUALITY_BRAND A LEFT JOIN MDMS_BRAND_INFO B ON A.BRAND_ID=B.ID
+		WHERE A.TYPE=#type# AND A.UPDATE_AUTHOR=#update_author#
+	</select>
+	
+	<!-- 添加优质货源主表信息 -->
+	<insert id="insertHighQualityMain" parameterClass="Map">
+		INSERT INTO MDMS_HIGH_QUALITY_MAIN(CUSTOMER_CODE,REMARK,ENABLED,UPDATE_AUTHOR) VALUES(#customer_code#,#remark#,#enabled#,#update_author#)
+		<selectKey resultClass="string" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS ID FROM MDMS_HIGH_QUALITY_MAIN LIMIT 1
+		</selectKey>
+	</insert>
+	
+	<!-- 添加优质货源数量表 -->
+	<insert id="insertHightQualityNum" parameterClass="Map">
+		INSERT INTO MDMS_HIGH_QUALITY_NUM(HIGH_QUALITY_MAIN_ID,BRAND_ID,DISTRIBUTE_NUM,UPDATE_AUTHOR) 
+		VALUES(#high_quality_main_id#,#brand_id#,#num#,#update_author#)
+	</insert>
+	
+	<!-- 查询优质货源信息 -->
+	<statement id="query"  parameterClass="map" resultClass="dto" remapResults="true">  
+		select a.id, A.CUSTOMER_CODE, c.CUSTOMER_NAME,c.address,c.phone_num,
+			c.company,c.account,c.director,c.department,
+			c.sale_visitor,c.location_desc,c.manage_type,
+			c.sale_valume,c.relation,c.customer_level,c.customer_type,
+			c.send_num,c.visit_cycle,c.order_area,c.order_type,c.customer_status,a.remark
+		<dynamic>
+			<isNotEmpty property="nameList" prepend=",">
+				<iterate property="nameList" conjunction=",">
+					sum(case b.brand_id when $nameList[]$ then distribute_num else 0 end) name$nameList[]$
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+		from  mdms_high_quality_main A  , mdms_high_quality_num b,mdms_customer c
+		where  a.id=b.high_quality_main_id and A.CUSTOMER_CODE=c.CUSTOMER_CODE and a.enabled=1
+		and a.update_author = #update_author#
+		<dynamic>
+			<isNotEmpty property="queryParam" prepend="and">
+				(c.customer_code like CONCAT('%',#queryParam#,'%') or
+				c.customer_name like CONCAT('%',#queryParam#,'%') or
+				c.address like CONCAT('%',#queryParam#,'%') or
+				c.director like CONCAT('%',#queryParam#,'%'))
+			</isNotEmpty>
+		</dynamic>
+		group by id
+    </statement>
+    
+    <select id="queryCount" parameterClass="map" resultClass="java.lang.Integer" remapResults="true">
+		select count(a.id)
+		from  mdms_high_quality_main A  , mdms_customer c
+		where  A.CUSTOMER_CODE=c.CUSTOMER_CODE and a.enabled=1
+		and a.update_author = #update_author#
+		<dynamic>
+			<isNotEmpty property="queryParam" prepend="and">
+				(c.customer_code like CONCAT('%',#queryParam#,'%') or
+				c.customer_name like CONCAT('%',#queryParam#,'%') or
+				c.address like CONCAT('%',#queryParam#,'%') or
+				c.director like CONCAT('%',#queryParam#,'%'))
+			</isNotEmpty>
+		</dynamic>
+    </select>
+    
+    <update id="updateMain" parameterClass="dto">
+		UPDATE MDMS_HIGH_QUALITY_MAIN
+		<dynamic prepend="SET"> 
+			<isNotEmpty prepend="," property="customer_code">
+				customer_code = #customer_code#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="remark">
+	         	remark = #remark#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="update_author">
+	         	update_author = #update_author#
+			</isNotEmpty>
+		</dynamic> 
+	        WHERE id = #id# 
+	</update>
+	<update id="updateNum" parameterClass="dto">
+		UPDATE MDMS_HIGH_QUALITY_NUM
+		<dynamic prepend="SET"> 
+			<isNotEmpty prepend="," property="distribute_num">
+				DISTRIBUTE_NUM = #distribute_num#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="update_author">
+	         	update_author = #update_author#
+			</isNotEmpty>
+		</dynamic> 
+	        WHERE HIGH_QUALITY_MAIN_ID = $high_quality_main_id$  and BRAND_ID=$brand_id$
+	</update>
+	
+	<!-- 逻辑删除 -->
+	<update id="delete" parameterClass="dto">
+		UPDATE MDMS_HIGH_QUALITY_MAIN SET enabled=0 WHERE id IN ($ids$)
+	</update>
+</sqlMap>

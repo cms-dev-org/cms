@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 客户信息 -->
+<sqlMap namespace="HdmSoftStatistics">
+	<typeAlias alias="dto" type="org.g4studio.core.metatype.impl.BaseDto" />
+	<select id="query" parameterClass="map" resultClass="dto">
+		SELECT b.id as id, b.report_date,b.hdm_soft,b.unit,b.remark,b.update_author,
+			a.customer_code,a.customer_name,a.address,a.phone_num,a.company,a.account,a.director,a.department,
+			a.sale_visitor,a.location_desc,a.manage_type,a.sale_valume,a.relation,a.customer_level,a.customer_type,
+			a.send_num,a.visit_cycle,a.order_area,a.order_type,a.customer_status,a.remark,a.update_time
+		FROM mdms_hdm_soft_statistics b left join mdms_customer a on b.customer_code=a.customer_code
+		LEFT JOIN eauser c ON b.update_author=c.userid
+		WHERE 1=1 AND b.enabled=1
+		<dynamic>
+			<isNotEmpty prepend="and" property="queryParam">
+				(a.customer_code like CONCAT('%',#queryParam#,'%') or
+				a.customer_name like CONCAT('%',#queryParam#,'%') or
+				a.address like CONCAT('%',#queryParam#,'%') or
+				a.director like CONCAT('%',#queryParam#,'%'))
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="report_date_start">
+				b.report_date>=#report_date_start#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="report_date_end">
+				b.report_date<![CDATA[ <= ]]>#report_date_end#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deptid"> 
+				(c.deptid LIKE CONCAT(#deptid#,'_%')
+				<isNotEmpty  prepend="or" property="userid">
+					(c.deptid=#deptid# and c.userid=#userid#)
+				</isNotEmpty>
+				)
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="queryCount" parameterClass="map" resultClass="java.lang.Integer">
+		SELECT COUNT(b.id)
+		FROM mdms_hdm_soft_statistics b left join mdms_customer a on b.customer_code=a.customer_code
+		LEFT JOIN eauser c ON b.update_author=c.userid
+		WHERE 1=1 AND b.enabled=1  
+		<dynamic>
+			<isNotEmpty prepend="and" property="queryParam">
+				(a.customer_code like CONCAT('%',#queryParam#,'%') or
+				a.customer_name like CONCAT('%',#queryParam#,'%') or
+				a.address like CONCAT('%',#queryParam#,'%') or
+				a.director like CONCAT('%',#queryParam#,'%'))
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="report_date_start">
+				b.report_date>=#report_date_start#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="report_date_end">
+				b.report_date<![CDATA[ <= ]]>#report_date_end#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deptid"> 
+				(c.deptid LIKE CONCAT(#deptid#,'_%')
+				<isNotEmpty  prepend="or" property="userid">
+					(c.deptid=#deptid# and c.userid=#userid#)
+				</isNotEmpty>
+				)
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	
+	<select id="query4Export" parameterClass="map" resultClass="dto">
+		SELECT b.hdm_soft,b.remark,a.customer_code,a.customer_name,a.director,
+			a.sale_visitor,a.manage_type,a.visit_cycle
+		FROM mdms_hdm_soft_statistics b left join mdms_customer a on b.customer_code=a.customer_code
+		LEFT JOIN eauser c ON b.update_author=c.userid
+		WHERE 1=1 AND b.enabled=1
+		<dynamic>
+			<isNotEmpty prepend="and" property="queryParam">
+				(a.customer_code like CONCAT('%',#queryParam#,'%') or
+				a.customer_name like CONCAT('%',#queryParam#,'%') or
+				a.address like CONCAT('%',#queryParam#,'%') or
+				a.director like CONCAT('%',#queryParam#,'%'))
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="report_date_start">
+				b.report_date>=#report_date_start#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="report_date_end">
+				b.report_date<![CDATA[ <= ]]>#report_date_end#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deptid"> 
+				(c.deptid LIKE CONCAT(#deptid#,'_%')
+				<isNotEmpty  prepend="or" property="userid">
+					(c.deptid=#deptid# and c.userid=#userid#)
+				</isNotEmpty>
+				)
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 插入汇总明细记录 -->
+	<insert id="insert" parameterClass="dto">
+		INSERT INTO mdms_hdm_soft_statistics(
+			customer_code,report_date,hdm_soft,unit,remark,enabled,update_author
+		) VALUES(
+			#customer_code#,#report_date#,$hdm_soft$,#unit#,#remark#,#enabled#,#update_author#
+		)
+	</insert>
+	
+	<!-- 逻辑删除项目信息 -->
+	<update id="delete" parameterClass="dto">
+		UPDATE mdms_hdm_soft_statistics SET enabled=0 WHERE id IN ($ids$)
+	</update>
+	
+	<update id="update" parameterClass="dto">
+		UPDATE mdms_hdm_soft_statistics
+		<dynamic prepend="SET"> 
+			<isNotEmpty prepend="," property="customer_code">
+				customer_code = #customer_code#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="report_date">
+				report_date = #report_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="hdm_soft">
+	        	hdm_soft = $hdm_soft$
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="unit">
+	         	unit = #unit#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="remark">
+	         	remark = #remark#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="update_author">
+	         	update_author = #update_author#
+			</isNotEmpty>
+		</dynamic> 
+	        WHERE id = #hdm_soft_id# 
+	</update>
+	
+	<select id="queryHdmSoftCount" parameterClass="map" resultClass="java.lang.Integer">
+		SELECT SUM(b.hdm_soft)
+		FROM mdms_hdm_soft_statistics b left join mdms_customer a on b.customer_code=a.customer_code
+		LEFT JOIN eauser c ON b.update_author=c.userid
+		WHERE 1=1 AND b.enabled=1
+		<dynamic>
+			<isNotEmpty prepend="and" property="queryParam">
+				(a.customer_code like CONCAT('%',#queryParam#,'%') or
+				a.customer_name like CONCAT('%',#queryParam#,'%') or
+				a.address like CONCAT('%',#queryParam#,'%') or
+				a.director like CONCAT('%',#queryParam#,'%'))
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="report_date_start">
+				b.report_date>=#report_date_start#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="report_date_end">
+				b.report_date<![CDATA[ <= ]]>#report_date_end#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deptid"> 
+				(c.deptid LIKE CONCAT(#deptid#,'_%')
+				<isNotEmpty  prepend="or" property="userid">
+					(c.deptid=#deptid# and c.userid=#userid#)
+				</isNotEmpty>
+				)
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="queryReportDate" parameterClass="map" resultClass="java.lang.String">
+		SELECT b.report_date
+		FROM mdms_hdm_soft_statistics b left join mdms_customer a on b.customer_code=a.customer_code
+		LEFT JOIN eauser c ON b.update_author=c.userid
+		WHERE 1=1 AND b.enabled=1
+		<dynamic>
+			<isNotEmpty prepend="and" property="queryParam">
+				(a.customer_code like CONCAT('%',#queryParam#,'%') or
+				a.customer_name like CONCAT('%',#queryParam#,'%') or
+				a.address like CONCAT('%',#queryParam#,'%') or
+				a.director like CONCAT('%',#queryParam#,'%'))
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="report_date_start">
+				b.report_date>=#report_date_start#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="report_date_end">
+				b.report_date<![CDATA[ <= ]]>#report_date_end#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deptid"> 
+				(c.deptid LIKE CONCAT(#deptid#,'_%')
+				<isNotEmpty  prepend="or" property="userid">
+					(c.deptid=#deptid# and c.userid=#userid#)
+				</isNotEmpty>
+				)
+			</isNotEmpty>
+		</dynamic>
+		limit 1
+	</select>
+	
+	<select id="queryUnit" parameterClass="map" resultClass="java.lang.String">
+		SELECT b.unit
+		FROM mdms_hdm_soft_statistics b left join mdms_customer a on b.customer_code=a.customer_code
+		LEFT JOIN eauser c ON b.update_author=c.userid
+		WHERE 1=1 AND b.enabled=1
+		<dynamic>
+			<isNotEmpty prepend="and" property="queryParam">
+				(a.customer_code like CONCAT('%',#queryParam#,'%') or
+				a.customer_name like CONCAT('%',#queryParam#,'%') or
+				a.address like CONCAT('%',#queryParam#,'%') or
+				a.director like CONCAT('%',#queryParam#,'%'))
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="report_date_start">
+				b.report_date>=#report_date_start#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="report_date_end">
+				b.report_date<![CDATA[ <= ]]>#report_date_end#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deptid"> 
+				(c.deptid LIKE CONCAT(#deptid#,'_%')
+				<isNotEmpty  prepend="or" property="userid">
+					(c.deptid=#deptid# and c.userid=#userid#)
+				</isNotEmpty>
+				)
+			</isNotEmpty>
+		</dynamic>
+		limit 1
+	</select>
+	
+</sqlMap>
