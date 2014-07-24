@@ -24,15 +24,6 @@
 		<property name="prefix" value="/cms/"/>
 		<property name="suffix" value=".jsp"/>
 	</bean>
-	<!-- <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-	  <property value="true" name="alwaysUseFullPath"></property> 
-	  <property name="mappings">
-	    <props> 
-	      <prop key="/dwr/**/*">dwrController</prop>
-	    </props>
-	 </property> 
-	</bean> -->
-	
 	<!-- <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="exceptionMappings">
 			<props>
