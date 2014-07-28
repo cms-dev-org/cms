@@ -6,6 +6,12 @@
 			+ path + "/";
 %>
 
+
+<form id="pageForm">
+	<input type="hidden" name="pager.totalSize" value="${pager.totalSize }">
+	<input type="hidden" name="pager.totalPage" value="${pager.totalPage }">
+</form>
+
 <div class="page mt10">
 	<div class="pagination">
 		<ul>
