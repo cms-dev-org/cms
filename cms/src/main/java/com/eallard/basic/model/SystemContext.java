@@ -13,6 +13,8 @@ public class SystemContext {
 	
 	private static ThreadLocal<Integer> totalCount = new ThreadLocal<Integer>();
 	
+	private static ThreadLocal<Integer> currentPage = new ThreadLocal<Integer>();
+	
 	private static ThreadLocal<String> sort = new ThreadLocal<String>();
 	
 	private static ThreadLocal<String> order = new ThreadLocal<String>();
@@ -49,7 +51,6 @@ public class SystemContext {
 		SystemContext.order.set(_order);
 	}
 	
-	
 	public static Integer getTotalCount() {
 		return totalCount.get();
 	}
@@ -58,6 +59,18 @@ public class SystemContext {
 		SystemContext.totalCount.set(_totalCount);
 	}
 
+	public static Integer getCurrentPage() {
+		return currentPage.get();
+	}
+
+	public static void setCurrentPage(Integer _currentPage) {
+		SystemContext.currentPage.set(_currentPage);
+	}
+
+	public static void removeCurrentPage() {
+		currentPage.remove();
+	}
+	
 	public static void removePageSize() {
 		pageSize.remove();
 	}

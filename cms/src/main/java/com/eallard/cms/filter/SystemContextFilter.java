@@ -19,13 +19,17 @@ import com.eallard.basic.model.SystemContext;
 public class SystemContextFilter implements Filter {
 	
 	private Integer pageSize;
+	
+	private Integer currentPage;
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		try {
 			pageSize = Integer.parseInt(filterConfig.getInitParameter("pageSize"));
+			currentPage = Integer.parseInt(filterConfig.getInitParameter("currentPage"));
 		} catch (NumberFormatException e) {
-			pageSize = 15;
+			pageSize = 10;
+			currentPage = 1;
 		}
 	}
 
@@ -42,6 +46,7 @@ public class SystemContextFilter implements Filter {
 			SystemContext.setSort(request.getParameter("sort"));
 			SystemContext.setPageSize(pageSize);
 			SystemContext.setPageStart(offset);
+			SystemContext.setCurrentPage(currentPage);
 			chain.doFilter(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -50,6 +55,7 @@ public class SystemContextFilter implements Filter {
 			SystemContext.removeSort();
 			SystemContext.removePageSize();
 			SystemContext.removePageStart();
+			SystemContext.removeCurrentPage();
 		}
 	}
 

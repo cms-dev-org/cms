@@ -19,6 +19,9 @@ public class Pager<T> {
 	/** 分页总数 */
 	private long total;
 	
+	/** 当前页 */
+	private int currentPage;
+	
 	/** 数据列表 */
 	private List<T> data;
 
@@ -44,6 +47,14 @@ public class Pager<T> {
 
 	public void setTotal(long total) {
 		this.total = total;
+	}
+
+	public int getCurrentPage() {
+		return currentPage;
+	}
+
+	public void setCurrentPage(int currentPage) {
+		this.currentPage = currentPage;
 	}
 
 	public List<T> getData() {
