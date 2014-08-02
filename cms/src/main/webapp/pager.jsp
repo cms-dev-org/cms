@@ -7,26 +7,28 @@
 			+ path + "/";
 %>
 
+<script type="text/javascript">
+	$(function() {
+		$('.pagination ul li a').click(function() {
+			var url = '/cms/user/list';
+		});
+	})
+</script>
+
 <form id="pageForm">
-	<input type="hidden" name="pager.totalSize" value="${pager.totalSize}">
+	<input type="hidden" name="pager.pagerSize" value="${pager.pagerSize}">
 	<input type="hidden" name="pager.totalPage" value="${pager.totalPage}">
+	<input type="hidden" name="pager.currentPage" value="${pager.currentPage}">
 </form>
 
 <div class="page mt10">
 	<div class="pagination">
 		<ul>
 			<li class="first-child"><a href="#">首页</a></li>
-			<c:choose>
-	       		<c:when test="${pager.hasPrevPage}">
-		      		<li class="disabled"><span>上一页</span></li>
-				</c:when>
-		   		<c:otherwise>
-					<li class="disabled"><span>上一页</span></li>
-				</c:otherwise>
-			</c:choose>
+		    <li class="disabled"><span>上一页</span></li>
 			<li class="active"><span>1</span></li>
 			<li><a href="#">2</a></li>
-			<li><a href="#">下一页</a></li>
+			<li><a href="javascript:void(0);">下一页</a></li>
 			<li class="last-child"><a href="#">末页</a></li>
 			
 		</ul>

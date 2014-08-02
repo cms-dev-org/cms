@@ -208,7 +208,7 @@ background-color: #f5f5f5;
 	border-radius: 2px;
 	box-shadow: 2px 2px 2px #e7f1f7 inset;
 }
-.input-text{height: 28px;}
+.input-text{height: 32px;}
 .textarea{width: 380px;height: 90px;}
 /*下拉框美化*/
 .select{ 

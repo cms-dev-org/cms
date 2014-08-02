@@ -45,11 +45,15 @@ public class User {
 	private Integer status;
 	
 	/** 用户创建时间*/
-	private Date createDate;
+	private Date createTime;
 	
 	private String remark;
 	
 	private Integer createAuthor;
+	
+	private Integer updateAuthor;
+	
+	private Date updateTime;
 	
 	@Id
 	@GeneratedValue
@@ -121,15 +125,6 @@ public class User {
 		this.status = status;
 	}
 
-	@Column(name="create_date")
-	public Date getCreateDate() {
-		return createDate;
-	}
-
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
-
 	public String getRemark() {
 		return remark;
 	}
@@ -145,6 +140,33 @@ public class User {
 
 	public void setCreateAuthor(Integer createAuthor) {
 		this.createAuthor = createAuthor;
+	}
+
+	@Column(name="create_time")
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	@Column(name="update_author")
+	public Integer getUpdateAuthor() {
+		return updateAuthor;
+	}
+
+	public void setUpdateAuthor(Integer updateAuthor) {
+		this.updateAuthor = updateAuthor;
+	}
+
+	@Column(name="update_time")
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
 	}
 	
 }

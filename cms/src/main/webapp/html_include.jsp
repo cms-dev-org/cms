@@ -16,6 +16,7 @@
 <script type="text/javascript" src="<%=contextPath%>/resources/js/additional-methods.js"></script>
 <script type="text/javascript" src="<%=contextPath%>/resources/js/cookie.js"></script>
 <script type="text/javascript" src="<%=contextPath%>/resources/js/jquery.SuperSlide.js"></script>
+<script type="text/javascript" src="<%=contextPath%>/resources/js/jquery.page.js"></script>
 
 <script type="text/javascript">
 	jQuery.ctx = '<%=contextPath%>';

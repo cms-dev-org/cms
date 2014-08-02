@@ -11,13 +11,13 @@ import java.util.List;
 public class Pager<T> {
 	
 	/** 分页大小 */
-	private int size;
+	private int pagerSize;
 	
 	/** 分页起始 */
 	private int start;
 	
 	/** 分页总数 */
-	private long total;
+	private long totalPage;
 	
 	/** 当前页 */
 	private int currentPage;
@@ -25,12 +25,20 @@ public class Pager<T> {
 	/** 数据列表 */
 	private List<T> data;
 
-	public int getSize() {
-		return size;
+	public int getPagerSize() {
+		return pagerSize;
 	}
 
-	public void setSize(int size) {
-		this.size = size;
+	public void setPagerSize(int pagerSize) {
+		this.pagerSize = pagerSize;
+	}
+
+	public long getTotalPage() {
+		return totalPage;
+	}
+
+	public void setTotalPage(long totalPage) {
+		this.totalPage = totalPage;
 	}
 
 	public int getStart() {
@@ -39,14 +47,6 @@ public class Pager<T> {
 
 	public void setStart(int start) {
 		this.start = start;
-	}
-
-	public long getTotal() {
-		return total;
-	}
-
-	public void setTotal(long total) {
-		this.total = total;
 	}
 
 	public int getCurrentPage() {

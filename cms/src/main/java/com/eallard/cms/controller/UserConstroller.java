@@ -21,13 +21,6 @@ import com.eallard.cms.utils.JsonUtil;
 /**
  * @author renzw
  * @date 2014-4-30 上午9:23:30 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
  */
 @Controller
 @RequestMapping("/user")
@@ -43,7 +36,7 @@ public class UserConstroller extends BaseController {
 	
 	@RequestMapping("/list")
 	public String findUsers(Model model) {
-		model.addAttribute("datas", userService.findUser());
+		model.addAttribute("pager", userService.findUser());
 		return "admin/user/userList";
 	}
 	

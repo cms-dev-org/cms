@@ -91,7 +91,7 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements IUserDao{
 
 	@Override
 	public Pager<User> findUser() {
-		return this.find("from User");
+		return this.find("from User order by updateTime desc");
 	}
 
 	@Override

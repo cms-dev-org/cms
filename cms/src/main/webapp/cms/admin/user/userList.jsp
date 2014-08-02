@@ -57,10 +57,10 @@
 
 <div class="container">
 
-<div id="button" class="mt5">
+<div id="button" class="mt5" style="float:right">
 	<input id="addUserBtn" type="button" name="button" class="btn btn82 btn_add" value="新增" />
 	
-	<input type="text" name="name" class="input-text  wh200" size="10">
+	<input type="text" name="name" class="input-text wh200" size="10">
 	<input type="button" name="button" class="btn btn82 btn_search" value="查询">
 </div>
 
@@ -78,7 +78,7 @@
 				<th width="100">状态</th>
 				<th width="100">操作</th>
 			</tr>
-			<c:forEach items="${datas.data}" var="user">
+			<c:forEach items="${pager.data}" var="user">
 			<tr class="tr">
 				<td class="td_center">
 					<input type="checkbox" />
@@ -103,7 +103,9 @@
 			</tr>
 			</c:forEach>
 		</table>
-		<jsp:include page="/pager.jsp"></jsp:include>
+		<div class="pager" style="float:right;">
+			<jsp:include page="/pager.jsp"></jsp:include>
+		</div>
 	</div>
 </div>
 </div>

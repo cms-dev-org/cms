@@ -96,15 +96,13 @@ $(function() {
 						<tr>
 							<td class="td_right">性别：</td>
 							<td>
-								<span class="fl">
-									<div class="select_containers ">
-										<select name="sex" class="select">
-											<option value="0">未知</option>
-											<option value="1">男</option>
-											<option value="2">女</option>
-										</select>
-									</div>
-								</span>
+								<div class="select_containers">
+									<select name="sex" class="select">
+										<option value="0">未知</option>
+										<option value="1">男</option>
+										<option value="2">女</option>
+									</select>
+								</div>
 							</td>
 						</tr>
 						<tr>

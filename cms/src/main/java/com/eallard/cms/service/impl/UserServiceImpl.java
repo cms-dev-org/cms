@@ -1,5 +1,6 @@
 package com.eallard.cms.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
@@ -43,6 +44,7 @@ public class UserServiceImpl implements IUserService {
 		if(tu != null) throw new CmsException("添加的用户已经存在，不能添加！");
 		
 		user.setStatus(CmsServiceConstants.USER_STATUS_USED);
+		user.setCreateTime(new Date());
 		userDao.add(user);
 		
 		if(roleIds != null) {
@@ -119,7 +121,6 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public Pager<User> findUser() {
-		
 		return userDao.findUser();
 	}
 

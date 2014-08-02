@@ -129,6 +129,7 @@ public class BaseDaoImpl<T> implements IBaseDao<T>{
 	private void setPager(Query query, Pager pager) {
 		Integer pageSize = SystemContext.getPageSize();
 		Integer pageStart = SystemContext.getPageStart();
+		Integer currentPage = SystemContext.getCurrentPage();
 		
 		if(pageSize == null || pageSize <= 0) {
 			pageSize = 15;//需要配置
@@ -140,7 +141,8 @@ public class BaseDaoImpl<T> implements IBaseDao<T>{
 		
 		query.setFirstResult(pageStart).setMaxResults(pageSize);
 		
-		pager.setSize(pageSize);
+		pager.setCurrentPage(currentPage);
+		pager.setPagerSize(pageSize);
 		pager.setStart(pageStart);
 		pager.setData(query.list());
 	}
@@ -264,7 +266,7 @@ public class BaseDaoImpl<T> implements IBaseDao<T>{
 		
 		Query countQuery = getSession().createQuery(countHql);
 		
-		pager.setTotal((Long)countQuery.uniqueResult());
+		pager.setTotalPage((Long)countQuery.uniqueResult());
 		
 		return pager;
 	}
@@ -357,7 +359,7 @@ public class BaseDaoImpl<T> implements IBaseDao<T>{
 		
 		Query countQuery = getSession().createQuery(countSql);
 		
-		pager.setTotal(((BigInteger)countQuery.uniqueResult()).longValue());
+		pager.setTotalPage(((BigInteger)countQuery.uniqueResult()).longValue());
 		
 		return pager;
 	}
@@ -407,7 +409,7 @@ public class BaseDaoImpl<T> implements IBaseDao<T>{
 		
 		SQLQuery countQuery = getSession().createSQLQuery(countSQL);
 		
-		pager.setTotal(((BigInteger)countQuery.uniqueResult()).longValue());
+		pager.setTotalPage(((BigInteger)countQuery.uniqueResult()).longValue());
 		
 		return pager;
 	}
