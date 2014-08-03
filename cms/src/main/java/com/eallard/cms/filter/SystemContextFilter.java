@@ -20,32 +20,38 @@ public class SystemContextFilter implements Filter {
 	
 	private Integer pagerSize;
 	
-	private Integer currentPage;
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		try {
 			pagerSize = Integer.parseInt(filterConfig.getInitParameter("pagerSize"));
-			currentPage = Integer.parseInt(filterConfig.getInitParameter("currentPage"));
 		} catch (NumberFormatException e) {
 			pagerSize = 10;
-			currentPage = 1;
 		}
 	}
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-		Integer offset = 0;
+		Integer pagerStart = 0;
 		try {
-			offset = Integer.parseInt(request.getParameter("pager.start"));
-		} catch (NumberFormatException e) {}
+			pagerStart = Integer.parseInt(request.getParameter("pagerStart"));
+		} catch (NumberFormatException e) {
+			pagerStart = 0;
+		}
+		
+		Integer currentPage = 1;
+		try {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		} catch (NumberFormatException e) {
+			currentPage = 1;
+		}
 		
 		try {
 			SystemContext.setOrder(request.getParameter("order"));
 			SystemContext.setSort(request.getParameter("sort"));
 			SystemContext.setPageSize(pagerSize);
-			SystemContext.setPageStart(offset);
+			SystemContext.setPageStart(pagerStart);
 			SystemContext.setCurrentPage(currentPage);
 			chain.doFilter(request, response);
 		} catch (Exception e) {

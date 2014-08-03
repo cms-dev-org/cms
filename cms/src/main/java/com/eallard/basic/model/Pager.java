@@ -14,10 +14,13 @@ public class Pager<T> {
 	private int pagerSize;
 	
 	/** 分页起始 */
-	private int start;
+	private int pagerStart;
 	
 	/** 分页总数 */
 	private long totalPage;
+	
+	/** 总记录数 */
+	private long totalSize;
 	
 	/** 当前页 */
 	private int currentPage;
@@ -41,12 +44,12 @@ public class Pager<T> {
 		this.totalPage = totalPage;
 	}
 
-	public int getStart() {
-		return start;
+	public int getPagerStart() {
+		return pagerStart;
 	}
 
-	public void setStart(int start) {
-		this.start = start;
+	public void setPagerStart(int pagerStart) {
+		this.pagerStart = pagerStart;
 	}
 
 	public int getCurrentPage() {
@@ -63,6 +66,14 @@ public class Pager<T> {
 
 	public void setData(List<T> data) {
 		this.data = data;
+	}
+
+	public long getTotalSize() {
+		return totalSize;
+	}
+
+	public void setTotalSize(long totalSize) {
+		this.totalSize = totalSize;
 	}
 	
 }

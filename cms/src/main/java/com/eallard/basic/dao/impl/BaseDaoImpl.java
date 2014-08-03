@@ -143,7 +143,7 @@ public class BaseDaoImpl<T> implements IBaseDao<T>{
 		
 		pager.setCurrentPage(currentPage);
 		pager.setPagerSize(pageSize);
-		pager.setStart(pageStart);
+		pager.setPagerStart(pageStart);
 		pager.setData(query.list());
 	}
 	
@@ -266,7 +266,9 @@ public class BaseDaoImpl<T> implements IBaseDao<T>{
 		
 		Query countQuery = getSession().createQuery(countHql);
 		
-		pager.setTotalPage((Long)countQuery.uniqueResult());
+		pager.setTotalSize((Long) countQuery.uniqueResult());
+		
+		pager.setTotalPage((int) Math.ceil(pager.getTotalSize() / (double) pager.getPagerSize()));
 		
 		return pager;
 	}

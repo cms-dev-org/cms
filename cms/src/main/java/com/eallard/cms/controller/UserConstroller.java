@@ -34,10 +34,15 @@ public class UserConstroller extends BaseController {
 	@Autowired
 	private IGroupService groupService;
 	
-	@RequestMapping("/list")
+	@RequestMapping("/listMain")
 	public String findUsers(Model model) {
-		model.addAttribute("pager", userService.findUser());
 		return "admin/user/userList";
+	}
+	
+	@RequestMapping("/listGrid")
+	public String findUsersList(Model model) {
+		model.addAttribute("pager", userService.findUser());
+		return "admin/user/userListGrid";
 	}
 	
 	@RequestMapping(value = "/saveUserInit", method=RequestMethod.GET)

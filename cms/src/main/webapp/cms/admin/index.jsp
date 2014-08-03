@@ -117,7 +117,7 @@
 		<div class="sideMenu" style="margin:0 auto">
 			<h3>用户管理</h3>
 			<ul>
-				<li class="on" src="/cms/user/list">用户管理</li>
+				<li class="on" src="/cms/user/listMain">用户管理</li>
 				<li>用户组管理</li>
 				<li>用户功能配置</li>
 				<li>管理员管理</li>
@@ -166,7 +166,7 @@
 		</div>
 	</div>
 	<div class="main">
-		<iframe name="right" id="rightMain" frameborder="no" src="/cms/user/list"
+		<iframe name="right" id="rightMain" frameborder="no" src="/cms/user/listMain"
 			scrolling="auto" width="100%" height="auto" allowtransparency="true"></iframe>
 	</div>
 	<div class="bottom">
