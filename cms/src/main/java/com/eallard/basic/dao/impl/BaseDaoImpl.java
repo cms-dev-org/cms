@@ -131,20 +131,26 @@ public class BaseDaoImpl<T> implements IBaseDao<T>{
 		Integer pageStart = SystemContext.getPageStart();
 		Integer currentPage = SystemContext.getCurrentPage();
 		
-		if(pageSize == null || pageSize <= 0) {
-			pageSize = 15;//需要配置
-		}
-		
-		if(pageStart == null || pageStart <= 0) {
-			pageStart = 0;
-		}
-		
 		query.setFirstResult(pageStart).setMaxResults(pageSize);
 		
 		pager.setCurrentPage(currentPage);
 		pager.setPagerSize(pageSize);
 		pager.setPagerStart(pageStart);
 		pager.setData(query.list());
+		pager.setTotalPage((int) Math.ceil(pager.getTotalSize() / (double) pager.getPagerSize()));
+		
+		//判断是否有前一页
+		if(currentPage > 1 && pager.getTotalPage() != 1) {
+			pager.setHasPrePage(true);
+		} else {
+			pager.setHasPrePage(false);
+		}
+		//判断是否有后一页
+		if(pager.getTotalPage() > 1 && pager.getCurrentPage() != pager.getTotalPage()) {
+			pager.setHasNextPage(true);
+		} else {
+			pager.setHasNextPage(false);
+		}
 	}
 	
 	/**
@@ -260,15 +266,13 @@ public class BaseDaoImpl<T> implements IBaseDao<T>{
 		
 		Pager<T> pager = new Pager<T>();
 		
-		setPager(query, pager);
-		
 		String countHql = getCountHql(hql, true);
 		
-		Query countQuery = getSession().createQuery(countHql);
+		Query countQuery = getSession().createQuery(countHql);//结果总数
 		
 		pager.setTotalSize((Long) countQuery.uniqueResult());
 		
-		pager.setTotalPage((int) Math.ceil(pager.getTotalSize() / (double) pager.getPagerSize()));
+		setPager(query, pager);
 		
 		return pager;
 	}

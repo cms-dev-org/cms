@@ -25,6 +25,12 @@ public class Pager<T> {
 	/** 当前页 */
 	private int currentPage;
 	
+	/** 是否有上一页 */
+	private boolean hasPrePage;
+	
+	/** 是否有下一页 */
+	private boolean hasNextPage;
+	
 	/** 数据列表 */
 	private List<T> data;
 
@@ -75,5 +81,20 @@ public class Pager<T> {
 	public void setTotalSize(long totalSize) {
 		this.totalSize = totalSize;
 	}
-	
+
+	public boolean isHasPrePage() {
+		return hasPrePage;
+	}
+
+	public void setHasPrePage(boolean hasPrePage) {
+		this.hasPrePage = hasPrePage;
+	}
+
+	public boolean isHasNextPage() {
+		return hasNextPage;
+	}
+
+	public void setHasNextPage(boolean hasNextPage) {
+		this.hasNextPage = hasNextPage;
+	}
 }
