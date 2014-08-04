@@ -25,13 +25,16 @@ $(function() {
 			},
 			password		: {
 				required	: true,
-				minlength	: 3
+				minlength	: 6
 			},
 			passwordConfirm : {
 				equalTo		: '#password'
 			},
 			nickname		: 'required',
-			email			: 'email'
+			email			: {
+				email		: true,
+				maxlength	: 32
+			}
 		},
 		messages	: {
 			username		: {
@@ -45,7 +48,10 @@ $(function() {
 			},
 			passwordConfirm	: '确认密码必须与密码一致！',
 			nickname		: '姓名不能为空！',
-			email			: '邮箱格式不正确！'
+			email			: {
+				email		: '邮箱格式不正确！',
+				maxlength	: jQuery.format('邮箱长度最多为{0}个字符！')
+			}
 		},
 		errorElement: 'span',
 		errorClass	: 'error-tip'

@@ -59,9 +59,10 @@ public class UserConstroller extends BaseController {
 		try {
 			userService.add(userDto.getUser(), userDto.getRoleIds(), userDto.getGroupIds());
 		} catch(Exception e) {
+			e.printStackTrace();
 			throw new CmsException("添加用户发生异常！");
 		}
-		return "redirect:list";
+		return "redirect:listMain";
 	}
 	
 	/**
