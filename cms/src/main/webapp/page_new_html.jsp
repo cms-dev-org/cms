@@ -12,6 +12,10 @@
     <c:choose>
     <c:when test="${pager.totalPage > 1}">
     <ul>
+    
+    
+    
+    
         <li>
         <c:choose>
 	       <c:when test="${pager.hasPrevPage}">
