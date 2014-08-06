@@ -61,7 +61,7 @@
 	
 	<div id="button" class="mt5" style="float:right">
 		<input id="addUserBtn" type="button" name="button" class="btn btn82 btn_add" value="新增" />
-		<input type="text" name="name" class="input-text wh200" size="10">
+		<input type="text" name="name" class="input-text lh25" size="30">
 		<input type="button" name="button" class="btn btn82 btn_search" value="查询">
 	</div>
 	
