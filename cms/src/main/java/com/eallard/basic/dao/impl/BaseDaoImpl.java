@@ -129,7 +129,7 @@ public class BaseDaoImpl<T> implements IBaseDao<T>{
 	private void setPager(Query query, Pager pager) {
 		Integer pageSize = SystemContext.getPageSize();
 		Integer pageStart = SystemContext.getPageStart();
-		Integer currentPage = SystemContext.getCurrentPage();
+		Integer currentPage = pageStart / pageSize + 1;
 		
 		query.setFirstResult(pageStart).setMaxResults(pageSize);
 		

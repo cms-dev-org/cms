@@ -40,19 +40,11 @@ public class SystemContextFilter implements Filter {
 			pagerStart = 0;
 		}
 		
-		Integer currentPage = 1;
-		try {
-			currentPage = Integer.parseInt(request.getParameter("currentPage"));
-		} catch (NumberFormatException e) {
-			currentPage = 1;
-		}
-		
 		try {
 			SystemContext.setOrder(request.getParameter("order"));
 			SystemContext.setSort(request.getParameter("sort"));
 			SystemContext.setPageSize(pagerSize);
 			SystemContext.setPageStart(pagerStart);
-			SystemContext.setCurrentPage(currentPage);
 			chain.doFilter(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -61,7 +53,6 @@ public class SystemContextFilter implements Filter {
 			SystemContext.removeSort();
 			SystemContext.removePageSize();
 			SystemContext.removePageStart();
-			SystemContext.removeCurrentPage();
 		}
 	}
 
