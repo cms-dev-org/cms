@@ -69,18 +69,14 @@
 	<div class="pagination">
 		<ul>
 			<li class="first-child"><a href="javascript:void(0);" pageFlag="F">首页</a></li>
-		    
 		    <c:choose>
 		    	<c:when test="${pager.hasPrePage == true}"><li><a href="javascript:void(0);" pageFlag="P">上一页</a></li></c:when>
 		    	<c:otherwise><li class="disabled"><span>上一页</span></li></c:otherwise>
 		    </c:choose>
-		    
 		    <c:choose>
 		    	<c:when test="${pager.hasNextPage == true}"><li><a href="javascript:void(0);" pageFlag="N">下一页</a></li></c:when>
 		    	<c:otherwise><li class="disabled"><span>下一页</span></li></c:otherwise>
 		    </c:choose>
-			
-			
 			<li class="last-child"><a href="javascript:void(0);" pageFlag="E">末页</a></li>
 		</ul>
 	</div>
