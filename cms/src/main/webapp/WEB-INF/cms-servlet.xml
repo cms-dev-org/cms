@@ -24,14 +24,15 @@
 		<property name="prefix" value="/cms/"/>
 		<property name="suffix" value=".jsp"/>
 	</bean>
-	<!-- <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+	<!-- 异常统一处理接口 -->
+	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="exceptionMappings">
 			<props>
-				<prop key="org.konghao.cms.model.CmsException">error</prop>
+				<prop key="com.eallard.cms.exception.CmsException">../error</prop>
 			</props>
 		</property>
 	</bean>
-	<bean id="multipartResolver"
+	<!-- <bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="maxUploadSize" value="500000000"></property>
 	</bean> -->

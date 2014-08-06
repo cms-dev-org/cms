@@ -39,5 +39,8 @@
 	</c:forEach>
 </table>
 <div class="pager" style="float:right;">
-	<jsp:include page="/pager.jsp"></jsp:include>
+	<jsp:include page="/pager.jsp">
+		<jsp:param value="/cms/user/listGrid" name="url"/>
+		<jsp:param value="table" name="container"/>
+	</jsp:include>
 </div>

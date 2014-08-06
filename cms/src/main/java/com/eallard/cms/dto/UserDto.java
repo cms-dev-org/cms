@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.eallard.cms.model.User;
 
@@ -67,7 +68,7 @@ public class UserDto {
 		this.nickname = nickname;
 	}
 
-	@NotNull(message="用户名不能为空")
+	@NotEmpty(message="用户名不能为空")
 	public String getUsername() {
 		return username;
 	}
@@ -76,7 +77,7 @@ public class UserDto {
 		this.username = username;
 	}
 
-	@NotNull(message="密码不能为空")
+	@NotEmpty(message="密码不能为空")
 	public String getPassword() {
 		return password;
 	}

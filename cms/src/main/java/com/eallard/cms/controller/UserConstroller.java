@@ -56,12 +56,7 @@ public class UserConstroller extends BaseController {
 	
 	@RequestMapping(value = "/saveUser", method=RequestMethod.POST)
 	public String saveUser(UserDto userDto) {
-		try {
-			userService.add(userDto.getUser(), userDto.getRoleIds(), userDto.getGroupIds());
-		} catch(Exception e) {
-			e.printStackTrace();
-			throw new CmsException("添加用户发生异常！");
-		}
+		userService.add(userDto.getUser(), userDto.getRoleIds(), userDto.getGroupIds());
 		return "redirect:listMain";
 	}
 	
