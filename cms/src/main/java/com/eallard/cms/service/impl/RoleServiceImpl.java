@@ -52,7 +52,7 @@ public class RoleServiceImpl implements IRoleService {
 
 	@Override
 	public void deleteRoleUsers(int rid) {
-		roleDao.delete(rid);
+		roleDao.deleteRoleUsers(rid);
 	}
 
 }

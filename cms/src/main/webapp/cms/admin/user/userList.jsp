@@ -52,6 +52,20 @@
 			}
 		});
 	}
+	
+	//删除用户
+	function delUser(id) {
+		if(confirm('确定要删除此用户？')) {
+			$.ajax({
+				url		: 'delUser',
+				data	: {id : id},
+				type	: 'GET',
+				success	: function(response) {
+					
+				}
+			});
+		}
+	}
 </script>
 
 </head>

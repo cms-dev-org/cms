@@ -135,13 +135,21 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public List<Group> listUserGroup(int userId) {
+	public List<Group> listUserGroups(int userId) {
 		return userDao.listUserGroups(userId);
 	}
 	
+	@Override
+	public List<Integer> listUserRoleIds(int userId) {
+		return userDao.listUserRoleIds(userId);
+	}
+
+	@Override
+	public List<Integer> listUserGroupIds(int userId) {
+		return userDao.listUserGroupIds(userId);
+	}
 	
 	/***********************私有方法***********************/
-	
 	/**
 	 * 根据用户和角色ID添加用户角色信息
 	 * @param user
@@ -163,4 +171,6 @@ public class UserServiceImpl implements IUserService {
 		if(group == null) throw new CmsException("用户角色不存在，不能添加！");
 		userDao.addUserGroup(user, group);
 	}
+	
+	
 }

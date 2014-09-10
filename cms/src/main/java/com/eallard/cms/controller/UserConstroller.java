@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -84,6 +85,14 @@ public class UserConstroller extends BaseController {
 			e.printStackTrace();
 			throw new CmsException("发送数据异常！");
 		}
+	}
+	
+	@RequestMapping(value = "/delUser/{id}", method = RequestMethod.GET)
+	public String delUser(@PathVariable Integer id) {
+		System.out.println(id);
+		userService.delete(Integer.valueOf(id));
+		
+		return "redirect:listMain";
 	}
 }
 

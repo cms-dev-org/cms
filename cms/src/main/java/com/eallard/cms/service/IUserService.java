@@ -68,7 +68,21 @@ public interface IUserService {
 	 * @param userId
 	 * @return
 	 */
-	public List<Group> listUserGroup(int userId);
+	public List<Group> listUserGroups(int userId);
+	
+	/**
+	 * 获取用户角色信息ID
+	 * @param userId
+	 * @return
+	 */
+	public List<Integer> listUserRoleIds(int userId);
+	
+	/**
+	 * 获取用户组信息ID
+	 * @param userId
+	 * @return
+	 */
+	public List<Integer> listUserGroupIds(int userId);
 }
 
 

@@ -78,7 +78,7 @@ $(function() {
 						<tr>
 							<td class="td_right wh200"><span style="color:red;">*</span>账号：</td>
 							<td><input type="text" name="username" class="input-text lh25"
-								size="30">
+								value="${user.username}" size="30">
 							</td>
 						</tr>
 						<tr>
@@ -96,7 +96,7 @@ $(function() {
 						<tr>
 							<td class="td_right wh200"><span style="color:red;">*</span>姓名：</td>
 							<td><input type="text" name="nickname" class="input-text lh25"
-								size="30">
+								value="${user.nickname }" size="30">
 							</td>
 						</tr>
 						<tr>
@@ -104,9 +104,9 @@ $(function() {
 							<td>
 								<div class="select_containers">
 									<select name="sex" class="select">
-										<option value="0">未知</option>
-										<option value="1">男</option>
-										<option value="2">女</option>
+										<option value="0" <c:if test="${user.sex == 0}">selected="selected"</c:if> >未知</option>
+										<option value="1" <c:if test="${user.sex == 1}">selected="selected"</c:if> >男</option>
+										<option value="2" <c:if test="${user.sex == 2}">selected="selected"</c:if> >女</option>
 									</select>
 								</div>
 							</td>
@@ -114,13 +114,13 @@ $(function() {
 						<tr>
 							<td class="td_right wh200">邮箱：</td>
 							<td><input type="text" name="email" class="input-text lh25"
-								size="30">
+								value="${user.email}" size="30">
 							</td>
 						</tr>
 						<tr>
 							<td class="td_right wh200">手机号：</td>
 							<td><input type="text" name="mobilePhone" class="input-text lh25"
-								size="30">
+								value="${user.mobilePhone}" size="30">
 							</td>
 						</tr>
 						<tr>

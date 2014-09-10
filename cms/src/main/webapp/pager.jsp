@@ -99,7 +99,6 @@
 		});
 		
 		$('.jumpToPage').click(function() {
-			
 			var pagerSize = parseInt($('#pageForm input[name=pagerSize]').val());
 			var pageNum = $.trim($(this).text());//要跳转到的页面数
 			var currentPage = parseInt($('#pageForm input[name=currentPage]').val());//当前页面数

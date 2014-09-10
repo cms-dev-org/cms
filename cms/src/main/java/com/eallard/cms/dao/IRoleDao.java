@@ -17,4 +17,10 @@ public interface IRoleDao extends IBaseDao<Role> {
 	 * @return
 	 */
 	public List<Role> listRole();
+	
+	/**
+	 * 删除用户对应的角色关系
+	 * @param rid
+	 */
+	public void deleteRoleUsers(int rid);
 }

@@ -33,7 +33,7 @@
 		</td>
 		<td class="td_center">
 			<a href="udpate/${user.id}">修改</a>&nbsp;&nbsp;
-			<a class="delete" href="delete/${user.id}">删除</a>
+			<a class="delete" href="javascript:delUser(${user.id});">删除</a>
 		</td>
 	</tr>
 	</c:forEach>
